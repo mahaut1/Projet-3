@@ -37,6 +37,19 @@
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
 		<div class="gallery">
+			<script>
+				fetch("http://localhost:5678/api/works")
+					.then(data => data.json())
+					.then(jsonListWorks =>{
+						for (let jsonWorks of jsonListWorks){
+							output.title=`${jsonListWorks.title}`
+							const img= document.createElement("img");
+							img.src = jsonListWorks.imageUrl;
+							output.appendChild(img);
+						}
+					})
+				
+				</script>
 			<figure>
 				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
 				<figcaption>Abajour Tahina</figcaption>
