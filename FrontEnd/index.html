@@ -38,18 +38,26 @@
 		<h2>Mes Projets</h2>
 		<div class="gallery">
 			<script>
-				fetch("http://localhost:5678/api/works")
-					.then(data => data.json())
-					.then(jsonListWorks =>{
-						for (let jsonWorks of jsonListWorks){
-							output.title=`${jsonListWorks.title}`
-							const img= document.createElement("img");
-							img.src = jsonListWorks.imageUrl;
-							output.appendChild(img);
+				const url="http://localhost:5678/api/works"
+				const container= document.getElementById("portfolio")
+
+				const getWorks= () => {
+					fetch(url)
+					.then(function (res){
+						return res.json()
+					})
+					.then(function (data){
+						console.log(data)
+						for(works in data) {
+							container.innerHTML += `<figure>
+				<img src=${data.imageUrl} alt=${data.title}>
+				<figcaption>${data.title}</figcaption>
+			</figure>`
 						}
 					})
-				
-				</script>
+				}
+			</script>
+		
 			<figure>
 				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
 				<figcaption>Abajour Tahina</figcaption>
