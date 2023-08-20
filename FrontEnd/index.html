@@ -36,6 +36,32 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
+		<div class="filter">
+			<script>
+				const Api = async()=>{
+					try{
+						const response= await fetch("http://localhost:5678/api/categories");
+						const data= await response.json();
+						return data;
+					}catch (error){
+						console.log(error);
+					}
+				};
+				const dynamicFilter= (filters) => {
+					const filterbar=document.querySelector(".filter");
+					filterbar.innerHTML="";
+					filters.forEach((filter) => {
+						const filterbutton=document.createElement("filterbutton");
+						filterbar.appendChild(filterbutton);
+						filterbar.innerHTML=`<button>${filter.name} </button>`;
+					});
+				};
+				Api().then((data)=>{
+					dynamicFilter(data);
+				});
+			</script>
+
+		</div>
 		<div class="gallery">
 			<script>
 				// je me connecte à l'api en async pour que le programme continue à fonctionner pendant que l'image se charge. Une fois que l'image est chargée , la fonction async renvoie les données que je peux utiliser pour afficher l'image correctement sur le site
@@ -48,26 +74,23 @@
 						console.log(error);
 					}
 				};
-				
 				// fonction pour créer les éléments et les récupérer
-				const renderGallery = (items) => {
+				const dynamicGallery = (cards) => {
 					const gallery = document.querySelector(".gallery");
 					gallery.innerHTML="";
-
-					items.forEach((item)=> {
-						const galleryItem=document.createElement("galleryItem");
-						galleryItem.classList.add("box");
-						gallery.appendChild(galleryItem);
-						galleryItem.innerHTML = `
-						<img src="${item.imageUrl}" alt="${item.title}">
-						<h3 class="itemTitle">${item.title}</h3>
+					cards.forEach((card)=> {
+						const galleryCard=document.createElement("galleryCard");
+						gallery.appendChild(galleryCard);
+						galleryCard.innerHTML = `
+						<img src="${card.imageUrl}" alt="${card.title}">
+						<h3 class="cardTitle">${card.title}</h3>
 						`;
 					});
 				};
 
 				//affichage des données sur le site dynamiquement
 				getApi().then((data)=>{
-					renderGallery(data);
+					dynamicGallery(data);
 				});
 			</script>
 	
