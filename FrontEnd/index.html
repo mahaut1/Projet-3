@@ -38,6 +38,20 @@
 		<h2>Mes Projets</h2>
 		<div class="filter">
 			<script>
+
+				const boutonTous="Tous";
+				const boutonObjet="Objet";
+				const boutonAppartements="appartements";
+				const boutonHotelRestaurant="Hôtels et restaurants";
+
+				const Filters = new Set();
+				Filters.add(boutonTous);
+				Filters.add(boutonObjet);
+				Filters.add(boutonAppartements);
+
+				Filters.values()
+
+
 				const Api = async()=>{
 					try{
 						const response= await fetch("http://localhost:5678/api/categories");
@@ -47,6 +61,8 @@
 						console.log(error);
 					}
 				};
+				
+				
 				const dynamicFilter= (filters) => {
 					const filterbar=document.querySelector(".filter");
 					filterbar.innerHTML="";
