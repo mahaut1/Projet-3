@@ -18,16 +18,22 @@
             const button = document.createElement("button");
             button.innerText= categorie.name;
             button.classList.add("FilterButton");
+            buttonBar.appendChild(button);
 
             button.addEventListener("click", async () =>{
                 const getData= await getWorkApi();
-                const filteredData = getData.filter((data)=> data.categorieId === categorie.id);             
+                const filteredData = getData.filter((data)=> data.categorieId === categorie.id);   
+                dynamicGallery(filteredData);          
             });
-            dynamicGallery(filteredData);
+           
         });
-        buttonBar.appendChild(button);
+      
     });
 
+    const btnAll = document.createElement('button');
+    btnAll.innerText = 'Tous';
+    buttonBar.appendChild(btnAll);
+    btnAll.classList.add("FilterButton");
 
     /*****
      * Affichage dynamique des works 
