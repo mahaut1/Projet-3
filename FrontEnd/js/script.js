@@ -1,5 +1,39 @@
-	// Connexion à l'api en async pour que le programme continue à fonctionner pendant le chargement. Une fois que l'image est chargée , la fonction async renvoie les données que je peux utiliser pour afficher l'image correctement sur le site
-    const getApi = async()=>{
+	/**
+     * Affichage dynamique des catégories
+     */
+    
+    const getCatApi = async()=>{
+        try{
+            const reponse= await fetch("http://localhost:5678/api/categories");
+            const data= await reponse.json();
+            return data;
+        } catch (error){
+            console.log(error);
+        }
+    }
+
+    getCatApi().then((categories) => {
+        const buttonBar= document.querySelector(`#buttonBar`);
+        categories.forEach((categorie)=>{
+            const button = document.createElement("button");
+            button.innerText= categorie.name;
+            button.classList.add("FilterButton");
+
+            button.addEventListener("click", async () =>{
+                const getData= await getWorkApi();
+                const filteredData = getData.filter((data)=> data.categorieId === categorie.id);             
+            });
+            dynamicGallery(filteredData);
+        });
+        buttonBar.appendChild(button);
+    });
+
+
+    /*****
+     * Affichage dynamique des works 
+     ******/
+    // Connexion à l'api en async pour que le programme continue à fonctionner pendant le chargement. Une fois que l'image est chargée , la fonction async renvoie les données que je peux utiliser pour afficher l'image correctement sur le site
+    const getWorkApi = async()=>{
         try{
             const response= await fetch("http://localhost:5678/api/works");
             const data= await response.json();
@@ -22,7 +56,7 @@
         });
     };
 
-    //affichage des données sur le site dynamiquement
-    getApi().then((data)=>{
+    //affichage des données sur le site 
+    getWorkApi().then((data)=>{
         dynamicGallery(data);
     });
