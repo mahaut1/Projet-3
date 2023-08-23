@@ -23,6 +23,24 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
+:root{
+	--logoFont: 'Lilita One', cursive;
+    --capHeadingFont: 'Gentium Plus', serif;
+    --paraFont: 'Mulish', sans-serif;
+    --paraBoldFont: 'Lato', sans-serif;
+    --buttonFont: 'Rubik', sans-serif;
+    --primaryColor: #3A6B35;
+    --sage: #CBD18F;
+    --sageHov: #BAC26B;
+    --mustard:  #E3B448;
+    --mustardHov:  #E8C065;
+    --greybk: #f3f4f6;
+    --box-shadow: 0 0 .7rem rgba(0, 0, 0, 0.3);
+    --text-shadow: 0 .3rem .5rem rgba(59, 59, 59, 0.4);
+    --primaryFontColor: color: rgb(100, 96, 96); 
+}
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -214,9 +232,46 @@ input[type="submit"]{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: flex-end;
+	justify-content: center;
 	padding-left: 50px;
 }
+
+.login{
+	/* background-color: aquamarine; */
+
+}
+
+.login label{
+	margin-bottom: 10px;
+}
+
+.login input{
+	width: 300px;
+	padding: 10px;
+	border: 1px solid #eeee;
+	margin-bottom: 20px;
+}
+
+.login label, .login input{
+	display: block;
+} 
+
+#submit{
+	display: inline;
+	width: 200px;
+	box-shadow: var(--box-shadow);
+}
+
+#pswd_forgot{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+
+
+
+/**************** FOOTER ***************************/
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
