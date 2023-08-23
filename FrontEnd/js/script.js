@@ -25,9 +25,9 @@
                 const filteredData = getData.filter((data)=> data.categorieId === categorie.id);   
                 dynamicGallery(filteredData);          
             });
-           
+            
         });
-      
+    
     });
 
     const btnAll = document.createElement('button');
