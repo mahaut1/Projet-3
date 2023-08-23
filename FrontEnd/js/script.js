@@ -22,7 +22,7 @@
 
             button.addEventListener("click", async () =>{
                 const getData= await getWorkApi();
-                const filteredData = getData.filter((data)=> data.categorieId === categorie.id);   
+                const filteredData = getData.filter((data)=> data.categoryId === categorie.id);   
                 dynamicGallery(filteredData);          
             });
             
