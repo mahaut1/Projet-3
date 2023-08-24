@@ -72,10 +72,7 @@
 
     /********************* LOGIN *****************/
 
-    function clearSessionStorage(){
-        sessionStorage.clear();
-        document.location.href ="login.html";
-    }
+   
 
     sessionStorage.clear();
 
@@ -90,6 +87,8 @@
         //récupération de la valeur des input
         const email=document.getElementById("email").value;
         const password=document.getElementById("password").value;
+        console.log(email);
+        console.log(password);
 
         // connexion à la base de données
         fetch('http://localhost:5678/api/users/login', {
@@ -104,7 +103,8 @@
             let userId= data.useId;
             if (userId == 1){
                 let token= data;
-                sessionStorage.setItem("token", token.token);
+                window.sessionStorage.setItem("token", token.token);
+                console.log(token);
 
                 document.location.href="index.html";
             } else {
