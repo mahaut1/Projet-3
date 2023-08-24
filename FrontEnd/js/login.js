@@ -58,7 +58,7 @@ export const deleteAdmin = () => {
     document.querySelectorAll(".authComponent").forEach((component)=> component.remove());
 }
 
-/*********************GESTION DE LA SESSION  ****************************/
+/***************GESTION DE LA SESSION  ************************/
 export const sessionManager = () => {
     return{
         refreshAdmin: (data = null)=> sessionManager().isAuthenticated() ? createAdmin(data=null) : deleteAdmin(),
@@ -74,4 +74,49 @@ export const sessionManager = () => {
             return true;
           }
     }
+}
+
+/********************** LOGIN ***************************/
+
+if (sessionManager().isAuthenticated()) window.location.href='./index.html'
+
+const loginForm = document.querySelector('.login')
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const email=document.getElementById("email").value
+    const password=document.getElementById("password").value
+})
+
+const admin = {
+    email:`sophie.bluel@test.tld`,
+    password: `S0phie`
+}
+
+const headers = {
+    "Content-Type": "application/json"
+}
+
+const request = await fetch ('http://localhost:5678/api/users/login', {
+    method:"POST",
+    mode:"cors",
+    headers: headers,
+    body: JSON.stringify(admin)
+}).then(response=> response)
+
+const data = await request.json()
+
+let errorMessage= document.querySelector('.errors')
+ 
+switch (request.status) {
+    case 200: 
+        sessionManager().validate(data.token)
+        window.location.href = './index.html'
+    break;
+    
+    case 401:
+        errorMessage.innerText="L'adresse email et / ou le mot de passe sont incorrect"
+    break;
+
+    default:
+        errorMessage.innerText=`${request.status} ${request.statusText}`
 }
