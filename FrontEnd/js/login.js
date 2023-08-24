@@ -59,3 +59,19 @@ export const deleteAdmin = () => {
 }
 
 /*********************GESTION DE LA SESSION  ****************************/
+export const sessionManager = () => {
+    return{
+        refreshAdmin: (data = null)=> sessionManager().isAuthenticated() ? createAdmin(data=null) : deleteAdmin(),
+         unvalidate : () => sessionStorage.removeItem("token"),
+          validate:(token, expire=null)=> sessionStorage.setItem("token", token),
+        
+          getToken: () => {
+            return sessionStorage.getItem("token")
+          },
+          isAuthenticated : () => {
+            let storedToken = sessionManager().getToken()
+            if (storedToken===null) return false
+            return true;
+          }
+    }
+}
