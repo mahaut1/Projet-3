@@ -70,50 +70,7 @@
         dynamicGallery(data);
     });
 
-    /********************* LOGIN *****************/
 
    
 
-    sessionStorage.clear();
-
-    //récupération du formulaire dans le DOM
-    const formulaire= document.getElementById("loginForm");
-
-    // écoute du bouton submit
-    formulaire.addEventListener("submit", event=>{
-        //empecher le rechargement de la page
-        event.preventDefault();
-
-        //récupération de la valeur des input
-        const email=document.getElementById("email").value;
-        const password=document.getElementById("password").value;
-        console.log(email);
-        console.log(password);
-
-        // connexion à la base de données
-        fetch('http://localhost:5678/api/users/login', {
-            methode:"POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password})
-        })
-        .then(response => response.json())
-        .then(data =>{
-            let userId= data.useId;
-            if (userId == 1){
-                let token= data;
-                window.sessionStorage.setItem("token", token.token);
-                console.log(token);
-
-                document.location.href="index.html";
-            } else {
-                let errorMessage= document.getElementById("error-message");
-                errorMessage.textContent="Identifiant ou mot de passe incorrect"
-            }
-        })
-        .catch(error =>{
-            console.error(error)
-        })
-
-    })
+    
