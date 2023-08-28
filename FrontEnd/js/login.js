@@ -63,8 +63,10 @@ const deleteAdmin = () => {
 /********************** LOGIN ***************************/
 
 
+/*
 
-/* const loginForm = document.querySelector('.login')
+if (sessionManager().isAuthenticated()) window.location.href='./index.html'
+const loginForm = document.querySelector('.login')
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     const email=document.getElementById("email").value;
@@ -104,32 +106,42 @@ switch (request.status) {
     default:
         errorMessage.innerText=`${request.status} ${request.statusText}`
 }
-if (sessionManager().isAuthenticated()) window.location.href='./index.html' */
+ */
 
 /** */
 
-function login() {
-    const loginForm = document.querySelector('.login')
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault()
+ 
+    const loginForm = document.querySelector('#submit')
+    console.log("Hello")
+    loginForm.addEventListener('click', function(e){
+        e.preventDefault();
+        console.log("test");
         const user= {
             email:document.getElementById("email").value,
             password:document.getElementById("password").value
         
         };
+       
         const newUser= JSON.stringify(user);
         fetch ('http://localhost:5678/api/users/login', 
             {
                 method:"POST",
                 mode:"cors",
-                headers: { "Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "accept": "application/json",
+                    'Access-Control-Allow-Origin':'*',
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+                    "Access-Control-Allow-Headers": "origin, x-requested-with, content-type, Authorization"
+                  },
                 body: newUser
             })
     });
+   
     
-}
 
 
+ 
 /***************GESTION DE LA SESSION  ************************/
 const sessionManager = () => {
     return{
