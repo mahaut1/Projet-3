@@ -1,10 +1,4 @@
 
- 
- 
- 
-  
- 
- 
  /********************** LOGIN ***************************/
    // sessionStorage.clear();
    const loginForm = document.querySelector('#submit')
@@ -37,10 +31,24 @@
                           sessionStorage.setItem('token', token.token);
                           //redirection vers l'index.html
                           document.location.href="index.html";
+                         
                           
                       }else{
                           let errorMsg = document.getElementById('error-message');
                           errorMsg.textContent="Identifiant ou mot de passe incorrect !";
+                          if (!id.email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$/g)) {
+                            const p = document.createElement("p");
+                            p.innerHTML = "Veuillez entrer une addresse mail valide";
+                            loginEmailError.appendChild(p);
+                            return;
+                        }
+                        // vérifcation du mot de passe
+                        if (id.password.length < 5 && !id.password.match(/^[a-zA-Z0-9]+$/g)) {
+                            const p = document.createElement("p");
+                            p.innerHTML = "Veuillez entrer un mot de passe valide";
+                            loginMdpError.appendChild(p);
+                            return;
+                        }
                       }
                       
                       })
@@ -50,15 +58,15 @@
                   });
              
    })
-
+ 
 /************** CREATION DE LA PAGE D'ADMINISTRATION  **********************/
    
-     if(sessionStorage.token) {
+  /*    if(sessionStorage.token) {
         fetch('http://localhost:5678/api/users/login', {
             method:'POST',
             mode:"cors",
             headers:{
-                'Authorization':'Bearer'+ sessionStorage.token
+                'Authorization':'Bearer' + sessionStorage.token
             }
         })
         .then(response=>{
@@ -123,7 +131,8 @@
         .catch(error=>{
             console.error('Erreur lors de la requête')
         })
-     }  
+     }  */ 
+
      /* if(sessionStorrage.token){
         let ButtonLogin = document.querySelector('#ButtonLogin')
         ButtonLogin.removeAttribute("href")
