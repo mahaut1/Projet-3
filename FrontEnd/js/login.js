@@ -1,6 +1,13 @@
 
  /********************** LOGIN ***************************/
    // sessionStorage.clear();
+   const filter = document.querySelector("buttonBar");
+   const editBar = document.querySelector("#js-edit-mode");
+   const alignItems = document.querySelector("#introduction");
+   const buttonEditGallery = document.querySelector("#js-button-edit-gallery");
+   const buttonEditProfil = document.querySelector("#js-button-edit-profil");
+   const buttonEditDescription = document.querySelector("#js-button-edit-description");
+
    const loginForm = document.querySelector('#submit')
    loginForm.addEventListener('click', function(e){
        e.preventDefault();
@@ -30,9 +37,7 @@
                           let token = data;
                           sessionStorage.setItem('token', token.token);
                           //redirection vers l'index.html
-                          document.location.href="index.html";
-                         createContainerEdition();
-                          
+                          document.location.href="index.html";                      
                       }else{
                           let errorMsg = document.getElementById('error-message');
                           errorMsg.textContent="Identifiant ou mot de passe incorrect !";
@@ -61,7 +66,22 @@
  
 /************** CREATION DE LA PAGE D'ADMINISTRATION  **********************/
 
- 
+
+
+ const token=localStorage.getItem("token");
+ const authButton = document.getElementById("ButtonLogin");
+
+ if(token !==null) {
+    filter.style.display = "none";
+    editBar.style.display = "flex";
+    alignItems.style.alignItems = "inherit";
+    buttonEditDescription.style.display = "inline-flex";
+    buttonEditGallery.style.display = "inline-flex";
+    buttonEditProfil.style.display = "inline-flex";
+    authButton.innerText = "logout";
+ }
+
+
      
     
  
