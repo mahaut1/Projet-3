@@ -119,14 +119,13 @@ const getWorkAdminApi = async() => {
 // création des cards de la modale
 const adminGallery = (cards) => {
     const modalGrid= document.querySelector("#modalGrid");
-   // const adminCard=document.querySelector("#adminCard");
     modalGrid.innerHTML="";
     cards.forEach((card)=>{
-        const trash = document.createElement("i");
-        trash.classList.add("fa-solid", "fa-trash-can");
+        /* const trash = document.createElement("i");
+        trash.classList.add("fa-solid", "fa-trash-can"); */
         const adminCard=document.createElement("adminCard")
         modalGrid.appendChild(adminCard);
-        modalGrid.appendChild(trash);
+        //modalGrid.appendChild(trash);
         adminCard.innerHTML= `
        
         <svg width="9" height="11" viewBox="0 0 9 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -154,3 +153,32 @@ if (token !== null) {
   maskbuttons.style.display = "none";
   authButton.innerHTML = "logout";
 }
+
+// fermer la modale avec la croix
+const x = document.querySelector(".fa-xmark");
+
+x.addEventListener("click", () => {
+  modalWrapper.close();
+  addWorkForm.reset();
+  preventCloseModal.style.display = "none";
+  modalForm.reset();
+  imageInput.value = "";
+  imagePreview.style.display = "none";
+  faImg.style.display = "flex";
+  addPic.style.display = "flex";
+  formatImag.style.display = "flex";
+});
+
+// fermer la modale en cliquant en dehors de la modale
+modalWrapper.addEventListener("click", () => {
+    modalWrapper.close();
+    preventCloseModal.style.display = "none";
+    addWorkForm.reset();
+    modalForm.reset();
+    imageInput.value = "";
+    imagePreview.style.display = "none";
+    faImg.style.display = "flex";
+    addPic.style.display = "flex";
+    formatImag.style.display = "flex";
+  });
+  

@@ -353,11 +353,12 @@ input[type="submit"]{
   dialog::backdrop {
 	background: rgba(0, 0, 0, 0.74);
   }
-  
-  #modalHeader {
+
+ #modalHeader {
 	display: flex;
 	flex-direction: row;
-  }
+	margin:0px;
+  } 
   
   #titleModal {
 	font-size: xx-large;
@@ -423,25 +424,25 @@ input[type="submit"]{
 	position: relative;
   }
   
-/*   #modalGrid svg{
-	position: absolute;
+ #modalGrid svg{
+	position: inherit;
 	top: 5px;
 	right: 5px;
 	color: white;
 	padding: 7px;
 	background-color: #000000;
 	border-radius: 5px;
-  } */
- .fa-trash-can {
-	display:flex;
-	position: flex;
+  } 
+ /* .fa-trash-can {
+	
+	position: inherit;
 	top: 5px;
 	right: 5px;
 	color: white;
 	padding: 7px;
 	background-color: #000000;
 	border-radius: 5px;
-  } */
+  }  */
 
   
 /**************** FOOTER ***************************/
