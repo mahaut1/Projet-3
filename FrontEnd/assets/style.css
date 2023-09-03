@@ -423,7 +423,7 @@ input[type="submit"]{
 	position: relative;
   }
   
-  #modalGrid svg{
+/*   #modalGrid svg{
 	position: absolute;
 	top: 5px;
 	right: 5px;
@@ -431,9 +431,10 @@ input[type="submit"]{
 	padding: 7px;
 	background-color: #000000;
 	border-radius: 5px;
-  }
-/*   .fa-trash-can {
-	position: absolute;
+  } */
+ .fa-trash-can {
+	display:flex;
+	position: flex;
 	top: 5px;
 	right: 5px;
 	color: white;
