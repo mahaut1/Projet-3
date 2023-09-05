@@ -84,20 +84,22 @@ const modalForm = document.querySelector("dialog form");
 const hr1 = document.querySelector("#hr1");
 const hr2 = document.querySelector("#hr2");
 
+//Ouverture de la modale sur le clic "modifier"
 BtnModificationWorks.addEventListener("click", () => {
     modalWrapper.showModal();
+    //apparition des works
     preventCloseModal.style.display = "block";
     modalGrid.style.display = "grid";
     modalGrid.style.alignItems = "center";
     modalGrid.style.gridGap = "10px 10px";
     modalGrid.style.gridTemplateColumns = "auto auto auto auto auto";
     modalGrid.style.gridTemplateRow = "300px 300px 300px ";
-
+    // on évite l'apparition du formulaire d'ajout 
     arrow.style.display = "none";
     modalForm.style.display = "none";
     modalWrapper.classList.add("mystyle");
     modalWrapper.display = "none";
-
+    // apparition de la barre horizontale, des boutons ajouter une photo et supprimer la galerie, ainsi que du titre
     btnAddPic.style.display = "flex";
     modalFooter.style.display = "flex";
     titleModal.textContent = "Galerie photo";
@@ -121,8 +123,6 @@ const adminGallery = (cards) => {
     const modalGrid= document.querySelector("#modalGrid");
     modalGrid.innerHTML="";
     cards.forEach((card)=>{
-        /* const trash = document.createElement("i");
-        trash.classList.add("fa-solid", "fa-trash-can"); */
         const adminCard=document.createElement("adminCard")
         const imageElement = document.createElement("img");
         const captionElement = document.createElement("figcaption");
@@ -132,41 +132,55 @@ const adminGallery = (cards) => {
         trash.classList.add("fa-solid", "fa-trash-can");
         cross.classList.add("fa-solid", "fa-arrows-up-down-left-right");
         imageElement.src = card.imageUrl;
+        adminCard.setAttribute("data-id", card.id);
         adminCard.appendChild(cross);
         adminCard.appendChild(trash);
         adminCard.appendChild(imageElement);
         adminCard.appendChild(captionElement);
         modalGrid.appendChild(adminCard);
-        //modalGrid.appendChild(trash);
-       /*  adminCard.innerHTML= `
-       
-        <svg width="9" height="11" viewBox="0 0 9 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2.71607 0.35558C2.82455 0.136607 3.04754 0 3.29063 0H5.70938C5.95246 0 6.17545 0.136607 6.28393 0.35558L6.42857 0.642857H8.35714C8.71272 0.642857 9 0.930134 9 1.28571C9 1.64129 8.71272 1.92857 8.35714 1.92857H0.642857C0.287277 1.92857 0 1.64129 0 1.28571C0 0.930134 0.287277 0.642857 0.642857 0.642857H2.57143L2.71607 0.35558ZM0.642857 2.57143H8.35714V9C8.35714 9.70915 7.78058 10.2857 7.07143 10.2857H1.92857C1.21942 10.2857 0.642857 9.70915 0.642857 9V2.57143ZM2.57143 3.85714C2.39464 3.85714 2.25 4.00179 2.25 4.17857V8.67857C2.25 8.85536 2.39464 9 2.57143 9C2.74821 9 2.89286 8.85536 2.89286 8.67857V4.17857C2.89286 4.00179 2.74821 3.85714 2.57143 3.85714ZM4.5 3.85714C4.32321 3.85714 4.17857 4.00179 4.17857 4.17857V8.67857C4.17857 8.85536 4.32321 9 4.5 9C4.67679 9 4.82143 8.85536 4.82143 8.67857V4.17857C4.82143 4.00179 4.67679 3.85714 4.5 3.85714ZM6.42857 3.85714C6.25179 3.85714 6.10714 4.00179 6.10714 4.17857V8.67857C6.10714 8.85536 6.25179 9 6.42857 9C6.60536 9 6.75 8.85536 6.75 8.67857V4.17857C6.75 4.00179 6.60536 3.85714 6.42857 3.85714Z" fill="white"/>
-        </svg>
-       
-        <img src="${card.imageUrl}" alt="${card.title}">
-        <h3 class="cardTitle">Editer </h3>
-        ` */
     })
+    imageElement.addEventListener("mouseover", (event) => {
+        event.target.nextElementSibling.style.display = "block";
+      });
+  
+      imageElement.addEventListener("mouseout", (event) => {
+        event.target.nextElementSibling.style.display = "none";
+      });
+  
+      cross.style.display = "none";
+  
+      cross.addEventListener("mouseover", (event) => {
+        event.target.style.display = "block";
+      });
+  
+      cross.addEventListener("mouseout", (event) => {
+        event.target.style.display = "block";
+      });
+      // supprimer un travail de la modale et du DOM*
+  const trash=document.querySelector(".fa-trash-can");
+  trash.addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log(" DEBUT DE SUPRESSION")
+    console.log(work.id)
+    console.log(token)
+    fetch("http://localhost:5678/api/works/" + work.id, {
+      method: "DELETE",
+      headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+    }).then((response) => {
+      if (response.ok) {
+        modalGrid.removeChild(adminCard);
+        gallery.removeChild(
+          document.querySelector('[data-id="' + work.id + '"]')
+        );
+      }
+    });
+  });
 }
 getWorkAdminApi().then((data)=>{
     adminGallery(data);
 })
 
-
-const token = localStorage.getItem("token");
-const authButton = document.getElementById("ButtonLogin");
-if (token !== null) {
-  // changer la class .adminPrivilege afin de faire apparaitre les elements de DOM permettant les modifications | masquer les boutons de filtres | changer login en logout
-  let adminPrivilege = document.querySelectorAll(".button-admin");
-  let maskbuttons = document.querySelector(".buttonBar");
-
-  adminPrivilege.style.display="flex";
-  maskbuttons.style.display = "none";
-  authButton.innerHTML = "logout";
-}
-
-// fermer la modale avec la croix
+    // fermer la modale avec la croix
 const x = document.querySelector(".fa-xmark");
 
 x.addEventListener("click", () => {
@@ -193,4 +207,8 @@ modalWrapper.addEventListener("click", () => {
     addPic.style.display = "flex";
     formatImag.style.display = "flex";
   });
-  
+
+
+
+
+
