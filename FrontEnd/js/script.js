@@ -156,8 +156,8 @@ const adminGallery = (cards) => {
       cross.addEventListener("mouseout", (event) => {
         event.target.style.display = "block";
       });
-      // supprimer un travail de la modale et du DOM*
-  const trash=document.querySelector(".fa-trash-can");
+   // supprimer un travail de la modale et du DOM*
+ // const trash=document.querySelector(".fa-trash-can");
   trash.addEventListener("click", (e) => {
     e.preventDefault();
     console.log(" DEBUT DE SUPRESSION")
@@ -174,12 +174,29 @@ const adminGallery = (cards) => {
         );
       }
     });
-  });
+  }); 
 }
 getWorkAdminApi().then((data)=>{
     adminGallery(data);
 })
 
+
+
+btnAddPic.addEventListener("click", function () {
+    console.log("J'ai cliqué");
+    modalWrapper.showModal();
+      btnAddPic.style.display = "none";
+      modalFooter.style.display = "none";
+      titleModal.textContent = "Ajout photo";
+      modalGrid.style.display = "none";
+      hr1.style.display = "none";
+  
+      // ajout de fleche gauche
+      arrow.style.display = "flex";
+      modalForm.style.display = "flex";
+      modalForm.style.flexDirection = "column";
+    
+  });
     // fermer la modale avec la croix
 const x = document.querySelector(".fa-xmark");
 
@@ -188,11 +205,11 @@ x.addEventListener("click", () => {
   addWorkForm.reset();
   preventCloseModal.style.display = "none";
   modalForm.reset();
-  imageInput.value = "";
+/*   imageInput.value = "";
   imagePreview.style.display = "none";
   faImg.style.display = "flex";
   addPic.style.display = "flex";
-  formatImag.style.display = "flex";
+  formatImag.style.display = "flex"; */
 });
 
 // fermer la modale en cliquant en dehors de la modale
@@ -201,14 +218,9 @@ modalWrapper.addEventListener("click", () => {
     preventCloseModal.style.display = "none";
     addWorkForm.reset();
     modalForm.reset();
-    imageInput.value = "";
+   /*  imageInput.value = "";
     imagePreview.style.display = "none";
     faImg.style.display = "flex";
     addPic.style.display = "flex";
-    formatImag.style.display = "flex";
+    formatImag.style.display = "flex"; */
   });
-
-
-
-
-
