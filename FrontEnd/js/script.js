@@ -139,6 +139,7 @@ const adminGallery = (cards) => {
         adminCard.appendChild(captionElement);
         modalGrid.appendChild(adminCard);
     })
+    imageElement=document.querySelector("img");
     imageElement.addEventListener("mouseover", (event) => {
         event.target.nextElementSibling.style.display = "block";
       });
@@ -147,34 +148,8 @@ const adminGallery = (cards) => {
         event.target.nextElementSibling.style.display = "none";
       });
   
-      cross.style.display = "none";
-  
-      cross.addEventListener("mouseover", (event) => {
-        event.target.style.display = "block";
-      });
-  
-      cross.addEventListener("mouseout", (event) => {
-        event.target.style.display = "block";
-      });
-   // supprimer un travail de la modale et du DOM*
- // const trash=document.querySelector(".fa-trash-can");
-  trash.addEventListener("click", (e) => {
-    e.preventDefault();
-    console.log(" DEBUT DE SUPRESSION")
-    console.log(work.id)
-    console.log(token)
-    fetch("http://localhost:5678/api/works/" + work.id, {
-      method: "DELETE",
-      headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
-    }).then((response) => {
-      if (response.ok) {
-        modalGrid.removeChild(adminCard);
-        gallery.removeChild(
-          document.querySelector('[data-id="' + work.id + '"]')
-        );
-      }
-    });
-  }); 
+    
+      deleteWork();
 }
 getWorkAdminApi().then((data)=>{
     adminGallery(data);
@@ -182,7 +157,8 @@ getWorkAdminApi().then((data)=>{
 
 
 
-btnAddPic.addEventListener("click", function () {
+btnAddPic.addEventListener("click", function (e) {
+    e.preventDefault();
     console.log("J'ai cliqué");
     modalWrapper.showModal();
       btnAddPic.style.display = "none";
@@ -224,3 +200,36 @@ modalWrapper.addEventListener("click", () => {
     addPic.style.display = "flex";
     formatImag.style.display = "flex"; */
   });
+
+  /********** SUPPRESSION TRAVAIL ***************/
+
+  function deleteWork(){
+    let deleteBtn=document.querySelectorAll(".fa-trash-can");
+        for (let i=0; i<deleteBtn.length; i++){
+            deleteBtn[i].addEventListener("click", deleteProjets);
+        }
+    }
+
+    async function deleteProjets(){
+        await fetch("http://localhost:5678/api/works/" + work.id, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer token ${token}`},
+          }).then((response) => {
+            if (response.ok) {
+              modalGrid.removeChild(adminCard);
+              console.log("Ce projet a été supprimé de la modale");
+              gallery.removeChild(
+                document.querySelector('[data-id="' + work.id + '"]')
+              );
+              console.log("Ce projet a été supprimé de la gallerie")
+            } else if(response.status ===401){
+                alert("Vous n'êtes pas autorisé à supprimer ce projet, veuillez vous connecter");
+                window.location.href="login.html";
+            }
+          })
+          .catch(error =>{
+            console.log(error)
+          })
+        }; 
+    
+      
