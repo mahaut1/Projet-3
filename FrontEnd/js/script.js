@@ -126,6 +126,7 @@ const adminGallery = (cards) => {
         const adminCard=document.createElement("adminCard")
         const imageElement = document.createElement("img");
         const captionElement = document.createElement("figcaption");
+        const id= card.id;
         captionElement.textContent = "éditer";
         const trash = document.createElement("i");
         const cross = document.createElement("i");
@@ -137,6 +138,7 @@ const adminGallery = (cards) => {
         adminCard.appendChild(trash);
         adminCard.appendChild(imageElement);
         adminCard.appendChild(captionElement);
+        adminCard.appendChild(id);
         modalGrid.appendChild(adminCard);
     })
     imageElement=document.querySelector("img");
@@ -147,15 +149,55 @@ const adminGallery = (cards) => {
       imageElement.addEventListener("mouseout", (event) => {
         event.target.nextElementSibling.style.display = "none";
       });
-  
-    
-      deleteWork();
+   
 }
+getWorkAdminApi().then(()=>{
+    const deleteBtn=document.querySelector(`.fa-trash-can"]`);
+    adminCardId=adminCard.getAttribute("data-id")
+    console.log("Voulez-vous supprimer ce projet avec l'id?"+adminCardId);
+    deleteBtn.addEventListener("click", function(){
+        if (confirm("Voulez-vous supprimer ce projet?")){
+            const removedCard=document.querySelector(`adminCard`);
+            modalGrid.removeChild(removedCard);
+            gallery.removeChild(
+              document.querySelector('[data-id="' + work.id + '"]')
+            );
+        }
+    })
+})
 getWorkAdminApi().then((data)=>{
     adminGallery(data);
 })
 
-
+modalGrid.addEventListener('click', function (event){
+    if(event.target.classList.contains('fa-trash-can')){
+        const adminCard=event.target.closest('adminCard');
+        const adminCardId=adminCard.dataset.id;
+        fetch(`http://localhost:5678/api/works/${adminCardId}`, {
+            method:'DELETE',
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(function(response) {
+            if(response.ok){
+                response.preventDefault
+                const removedCard=document.querySelector('adminCard');
+                modalGrid.removeChild(removedCard);
+                gallery.removeChild(querySelector('adminCard'));
+                getWorkAdminApi().then((data)=>{
+                    adminGallery(data);
+                })
+            } else {
+                console.error(`Erreur lors de la suppression de l'élement`);
+            }
+        })
+        .catch(function(error){
+            console.error(`Erreur de la supression de l'élément`, error);
+        })
+    }
+})
+   
 
 btnAddPic.addEventListener("click", function (e) {
     e.preventDefault();
@@ -200,36 +242,8 @@ modalWrapper.addEventListener("click", () => {
     addPic.style.display = "flex";
     formatImag.style.display = "flex"; */
   });
+  preventCloseModal.addEventListener("click", (event) => event.stopPropagation());
 
-  /********** SUPPRESSION TRAVAIL ***************/
 
-  function deleteWork(){
-    let deleteBtn=document.querySelectorAll(".fa-trash-can");
-        for (let i=0; i<deleteBtn.length; i++){
-            deleteBtn[i].addEventListener("click", deleteProjets);
-        }
-    }
-
-    async function deleteProjets(){
-        await fetch("http://localhost:5678/api/works/" + work.id, {
-            method: "DELETE",
-            headers: { Authorization: `Bearer token ${token}`},
-          }).then((response) => {
-            if (response.ok) {
-              modalGrid.removeChild(adminCard);
-              console.log("Ce projet a été supprimé de la modale");
-              gallery.removeChild(
-                document.querySelector('[data-id="' + work.id + '"]')
-              );
-              console.log("Ce projet a été supprimé de la gallerie")
-            } else if(response.status ===401){
-                alert("Vous n'êtes pas autorisé à supprimer ce projet, veuillez vous connecter");
-                window.location.href="login.html";
-            }
-          })
-          .catch(error =>{
-            console.log(error)
-          })
-        }; 
     
       
