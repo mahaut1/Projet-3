@@ -126,7 +126,6 @@ const adminGallery = (cards) => {
         const adminCard=document.createElement("adminCard")
         const imageElement = document.createElement("img");
         const captionElement = document.createElement("figcaption");
-        const id= card.id;
         captionElement.textContent = "éditer";
         const trash = document.createElement("i");
         const cross = document.createElement("i");
@@ -138,7 +137,6 @@ const adminGallery = (cards) => {
         adminCard.appendChild(trash);
         adminCard.appendChild(imageElement);
         adminCard.appendChild(captionElement);
-        adminCard.appendChild(id);
         modalGrid.appendChild(adminCard);
     })
     imageElement=document.querySelector("img");
@@ -149,39 +147,33 @@ const adminGallery = (cards) => {
       imageElement.addEventListener("mouseout", (event) => {
         event.target.nextElementSibling.style.display = "none";
       });
-   
+  
+    
+
 }
-getWorkAdminApi().then(()=>{
-    const deleteBtn=document.querySelector(`.fa-trash-can"]`);
-    adminCardId=adminCard.getAttribute("data-id")
-    console.log("Voulez-vous supprimer ce projet avec l'id?"+adminCardId);
-    deleteBtn.addEventListener("click", function(){
-        if (confirm("Voulez-vous supprimer ce projet?")){
-            const removedCard=document.querySelector(`adminCard`);
-            modalGrid.removeChild(removedCard);
-            gallery.removeChild(
-              document.querySelector('[data-id="' + work.id + '"]')
-            );
-        }
-    })
-})
 getWorkAdminApi().then((data)=>{
     adminGallery(data);
 })
 
-modalGrid.addEventListener('click', function (event){
+
+/********** SUPPRESSION TRAVAIL ***************/
+ modalGrid.addEventListener('click', function (event){
+    event.preventDefault();
+    event.stopPropagation();
+    const token=sessionStorage.getItem("token");
     if(event.target.classList.contains('fa-trash-can')){
         const adminCard=event.target.closest('adminCard');
         const adminCardId=adminCard.dataset.id;
         fetch(`http://localhost:5678/api/works/${adminCardId}`, {
             method:'DELETE',
-            headers:{
-                'Authorization': `Bearer ${token}`
-            }
+            headers: { 
+                Authorization: "Bearer " + sessionStorage.getItem("token") 
+            },
+
         })
         .then(function(response) {
             if(response.ok){
-                response.preventDefault
+                response.preventDefault;
                 const removedCard=document.querySelector('adminCard');
                 modalGrid.removeChild(removedCard);
                 gallery.removeChild(querySelector('adminCard'));
@@ -196,17 +188,16 @@ modalGrid.addEventListener('click', function (event){
             console.error(`Erreur de la supression de l'élément`, error);
         })
     }
-})
-   
+}) 
 
-btnAddPic.addEventListener("click", function (e) {
+document.getElementById("btnAddWork").addEventListener("click", function (e) {
     e.preventDefault();
     console.log("J'ai cliqué");
     modalWrapper.showModal();
       btnAddPic.style.display = "none";
       modalFooter.style.display = "none";
       titleModal.textContent = "Ajout photo";
-      modalGrid.style.display = "none";
+      modalGrid.style.display = "block";
       hr1.style.display = "none";
   
       // ajout de fleche gauche
@@ -215,6 +206,9 @@ btnAddPic.addEventListener("click", function (e) {
       modalForm.style.flexDirection = "column";
     
   });
+
+
+  /******* FERMETURE DE LA MODALE ****************/
     // fermer la modale avec la croix
 const x = document.querySelector(".fa-xmark");
 
@@ -242,7 +236,10 @@ modalWrapper.addEventListener("click", () => {
     addPic.style.display = "flex";
     formatImag.style.display = "flex"; */
   });
-  preventCloseModal.addEventListener("click", (event) => event.stopPropagation());
+
+  
+
+    
 
 
     

@@ -80,10 +80,4 @@
     buttonEditProfil.style.display = "inline-flex";
     authButton.innerText = "logout";
  }
-
-
-     
-    
- 
-  
  
