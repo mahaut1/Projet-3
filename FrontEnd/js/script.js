@@ -147,8 +147,16 @@ const adminGallery = (cards) => {
       imageElement.addEventListener("mouseout", (event) => {
         event.target.nextElementSibling.style.display = "none";
       });
+  /* 
+      cross.style.display = "none";
+
+      cross.addEventListener("mouseover", (event) => {
+        event.target.style.display = "block";
+      });
   
-    
+      cross.addEventListener("mouseout", (event) => {
+        event.target.style.display = "block";
+      }); */
 
 }
 getWorkAdminApi().then((data)=>{
@@ -173,10 +181,11 @@ getWorkAdminApi().then((data)=>{
         })
         .then(function(response) {
             if(response.ok){
-                response.preventDefault;
-                const removedCard=document.querySelector('adminCard');
+                response.preventDefault();
+                response.stopPropagation();
+                const removedCard = modalGrid.querySelector('adminCard[data-id="' + adminCardId + '"]');
                 modalGrid.removeChild(removedCard);
-                gallery.removeChild(querySelector('adminCard'));
+                gallery.removeChild(removedCard);
                 getWorkAdminApi().then((data)=>{
                     adminGallery(data);
                 })
@@ -190,22 +199,46 @@ getWorkAdminApi().then((data)=>{
     }
 }) 
 
+const stopPropagation= function(e){
+    e.stopPropagation()
+}
+
 document.getElementById("btnAddWork").addEventListener("click", function (e) {
     e.preventDefault();
-    console.log("J'ai cliqué");
+    e.stopPropagation();
     modalWrapper.showModal();
-      btnAddPic.style.display = "none";
-      modalFooter.style.display = "none";
-      titleModal.textContent = "Ajout photo";
-      modalGrid.style.display = "block";
-      hr1.style.display = "none";
+    console.log("J'ai cliqué");
+    btnAddPic.style.display = "none";
+    modalFooter.style.display = "none";
+    titleModal.textContent = "Ajout photo";
+    modalGrid.style.display = "none";
+    hr1.style.display = "none";
   
       // ajout de fleche gauche
-      arrow.style.display = "flex";
-      modalForm.style.display = "flex";
-      modalForm.style.flexDirection = "column";
+    arrow.style.display = "flex";
+    modalForm.style.display = "flex";
+    modalForm.style.flexDirection = "column";
     
   });
+
+
+  arrow.addEventListener("click", () => {
+    if (modalWrapper.open) {
+      arrow.style.display = "none";
+      modalForm.style.display = "none";
+      modalWrapper.classList.add("mystyle");
+      modalWrapper.display = "none";
+  
+      btnAddPic.style.display = "flex";
+      modalFooter.style.display = "flex";
+      titleModal.textContent = "Galerie photo";
+      modalGrid.style.display = "grid";
+      hr1.style.display = "flex";
+  
+      titleModal.textContent = "Galerie photo";
+    }
+  });
+  
 
 
   /******* FERMETURE DE LA MODALE ****************/

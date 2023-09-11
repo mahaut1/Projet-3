@@ -442,7 +442,111 @@ input[type="submit"]{
 	top: 30px;
 	left: 40px;
 }
+
+/***** MODALE 2 **********************/
+#arrow {
+	position: absolute;
+	top: 40px;
+	left: 60px;
+	display: none;
+	font-size:x-large ;
+  }
   
+  #bluePicDiv {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0px;
+	background-color: #e8f1f6;
+	height: 185px;
+	margin: 10px;
+	padding: 10px;
+  }
+  
+  form {
+	display: flex;
+	align-items: center;
+  }
+  
+  dialog form {
+	display: none;
+  }
+  
+  #Titre,
+  #cat {
+	margin-top: 30px;
+	align-items: flex-start;
+  }
+  
+  form i {
+	color: #b9c5cc;
+	font-size: xx-large;
+	padding: 0;
+	font-size: 4em;
+	font-weight: lighter;
+	margin: 20px;
+	width: 56px;
+  }
+  
+  #file-upload {
+	filter: blur(4000px);
+	margin: 0;
+  }
+  
+  #imagePreview {
+	width: fit-content;
+	block-size: fit-content;
+	max-width: 150px;
+  }
+  
+  form label span {
+	all: unset;
+	color: #306685;
+	background-color: #cbd6dc;
+	border-radius: 15px;
+	padding-inline: 20px;
+	padding-block: 10px;
+  }
+  
+  form input :first-child {
+	all: unset;
+	color: #306685;
+	background-color: #cbd6dc;
+	border-radius: 15px;
+	padding-inline: 20px;
+	padding-block: 10px;
+	display: flex;
+	align-items: center;
+  }
+  
+  form * {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 420px;
+	gap: 15px;
+  }
+  
+  #btnvalidate {
+	justify-content: center;
+	font-family: "Syne";
+	font-weight: 700;
+	color: white;
+	background-color: #a7a7a7;
+	width: 100px;
+	padding-inline: 25px;
+	padding-block: 7px;
+	text-align: center;
+	border-radius: 60px;
+	border: 2px solid #a7a7a7;
+  }
+  
+  #btnvalidate:hover,
+  #btnvalidate:focus {
+	color: #6e6d6d;
+	background-color: white;
+  }
   
 /**************** FOOTER ***************************/
 footer nav ul {
