@@ -1,4 +1,6 @@
-	/****** AFFICHAGE DES CATEGORIES************/
+	/****************************************
+     * AFFICHAGE DES CATEGORIES
+     * *************************************/
     
     const getCatApi = async()=>{
         try{
@@ -39,7 +41,9 @@
         })
     })
 
-    /********** AFFICHAGE DES WORKS ***************/
+    /**************************************************
+     * AFFICHAGE DES WORKS 
+     * ************************************************/
    
     // Connexion à l'api en async pour que le programme continue à fonctionner pendant le chargement. Une fois que l'image est chargée , la fonction async renvoie les données que je peux utiliser pour afficher l'image correctement sur le site
     const getWorkApi = async()=>{
@@ -70,7 +74,9 @@
         dynamicGallery(data);
     });
 
-/********************** MODALE 1************************/
+/***********************************************
+ * MODALE 1
+ * ********************************************/
 const gallery = document.querySelector(".gallery");
 const modalWrapper = document.querySelector(".modal-wrapper");
 const modalGrid = document.querySelector("#modalGrid");
@@ -164,7 +170,9 @@ getWorkAdminApi().then((data)=>{
 })
 
 
-/********** SUPPRESSION TRAVAIL ***************/
+/******************************************** 
+ * *SUPPRESSION TRAVAIL 
+ * ******************************************/
  modalGrid.addEventListener('click', function (event){
     event.preventDefault();
     event.stopPropagation();
@@ -203,6 +211,10 @@ const stopPropagation= function(e){
     e.stopPropagation()
 }
 
+
+/*******************************************
+ * * MODALE 2  
+ ******************************************/
 document.getElementById("btnAddWork").addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -222,7 +234,9 @@ document.getElementById("btnAddWork").addEventListener("click", function (e) {
   });
 
 
-  arrow.addEventListener("click", () => {
+  arrow.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (modalWrapper.open) {
       arrow.style.display = "none";
       modalForm.style.display = "none";
@@ -239,7 +253,98 @@ document.getElementById("btnAddWork").addEventListener("click", function (e) {
     }
   });
   
+  //  * ajout image modal 2/2 <i class="fa-regular fa-image"></i>--------------------------------------------
 
+let uploadInput = document.getElementById("file-upload");
+const faImg = document.querySelector(".fa-image");
+const addPic = document.querySelector("#addPic");
+const formatImag = document.querySelector("#formatImage");
+const imagePreview = document.querySelector("#imagePreview");
+uploadInput.onchange = function (e) {
+    
+  let image = new FileReader();
+
+  image.onload = function (e) {
+    imagePreview.src = e.target.result;
+    faImg.style.display = "none";
+    addPic.style.display = "none";
+    formatImag.style.display = "none";
+    imagePreview.style.display = "flex";
+  };
+  image.readAsDataURL(this.files[0]);
+};
+  const addWorkForm = document.querySelector("#addWorkForm");
+  const titleInput = document.getElementById("titre");
+  const categoryInput = document.getElementById("catégorie");
+  const imageInput = document.getElementById("file-upload");
+  const btnValidate = document.getElementById("btnvalidate");
+  function checkInputs() {
+    if (titleInput.value && categoryInput.value && imageInput.value) {
+      btnValidate.style.backgroundColor = "#1d6154";
+      btnValidate.style.border = "#1d6154";
+      btnValidate.style.color = "white";
+    } else {
+      btnValidate.style.backgroundColor = "grey";
+    }
+  }
+  
+  //éviter la disparition de la modale au click des inputs du formulaire
+  titleInput.addEventListener("click", (e)=>{
+    e.stopPropagation();
+  })
+  categoryInput.addEventListener("click", (e)=>{
+    e.stopPropagation();
+  })
+  imageInput.addEventListener("click", (e)=>{
+    e.stopPropagation();
+  })
+  btnValidate.addEventListener("click", (e)=>{
+    e.stopPropagation();
+  })
+  addPic.addEventListener("click", (e)=>{
+    e.stopPropagation();
+  })
+  faImg.addEventListener("click", (e)=>{
+    e.stopPropagation();
+  })
+
+  // On verifie ce qu'il y a dans les inputs
+  titleInput.addEventListener("input", checkInputs);
+  categoryInput.addEventListener("input", checkInputs);
+  imageInput.addEventListener("input", checkInputs);
+
+  
+  addWorkForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const formData = new FormData();
+    formData.append("image", document.getElementById("file-upload").files[0]);
+    formData.append("title", document.getElementById("titre").value);
+    formData.append("category", document.getElementById("catégorie").value);
+    console.log(formData);
+    event.preventDefault();
+    event.stopPropagation();
+    fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+            dynamicGallery(data);
+            adminGallery(data);
+        preventCloseModal.style.display = "none";
+        modalForm.reset();
+        imageInput.value = "";
+        imagePreview.style.display = "none";
+        faImg.style.display = "flex";
+        addPic.style.display = "flex";
+        formatImag.style.display = "flex";
+      })
+      .catch((error) => alert(error.message));
+  });
 
   /******* FERMETURE DE LA MODALE ****************/
     // fermer la modale avec la croix
@@ -250,11 +355,11 @@ x.addEventListener("click", () => {
   addWorkForm.reset();
   preventCloseModal.style.display = "none";
   modalForm.reset();
-/*   imageInput.value = "";
+  imageInput.value = "";
   imagePreview.style.display = "none";
   faImg.style.display = "flex";
   addPic.style.display = "flex";
-  formatImag.style.display = "flex"; */
+  formatImag.style.display = "flex"; 
 });
 
 // fermer la modale en cliquant en dehors de la modale
@@ -263,11 +368,11 @@ modalWrapper.addEventListener("click", () => {
     preventCloseModal.style.display = "none";
     addWorkForm.reset();
     modalForm.reset();
-   /*  imageInput.value = "";
+     imageInput.value = "";
     imagePreview.style.display = "none";
     faImg.style.display = "flex";
     addPic.style.display = "flex";
-    formatImag.style.display = "flex"; */
+    formatImag.style.display = "flex"; 
   });
 
   
