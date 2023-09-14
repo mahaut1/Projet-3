@@ -82,13 +82,17 @@ const modalWrapper = document.querySelector(".modal-wrapper");
 const modalGrid = document.querySelector("#modalGrid");
 const preventCloseModal = document.getElementById("preventCloseModal");
 const BtnModificationWorks = document.querySelector("#js-button-edit-gallery");
-const btnAddPic = document.querySelector(".btnAddPic");
+const btnAddPic = document.querySelector(".btnAddPicture");
 const modalFooter = document.querySelector("#modalFooter");
 const titleModal = document.querySelector("#titleModal");
 const arrow = document.querySelector("#arrow");
 const modalForm = document.querySelector("dialog form");
 const hr1 = document.querySelector("#hr1");
 const hr2 = document.querySelector("#hr2");
+
+const stopPropagation= function(e){
+  e.stopPropagation()
+}
 
 //Ouverture de la modale sur le clic "modifier"
 BtnModificationWorks.addEventListener("click", () => {
@@ -145,24 +149,7 @@ const adminGallery = (cards) => {
         adminCard.appendChild(captionElement);
         modalGrid.appendChild(adminCard);
     })
-    imageElement=document.querySelector("img");
-    imageElement.addEventListener("mouseover", (event) => {
-        event.target.nextElementSibling.style.display = "block";
-      });
-  
-      imageElement.addEventListener("mouseout", (event) => {
-        event.target.nextElementSibling.style.display = "none";
-      });
-  /* 
-      cross.style.display = "none";
-
-      cross.addEventListener("mouseover", (event) => {
-        event.target.style.display = "block";
-      });
-  
-      cross.addEventListener("mouseout", (event) => {
-        event.target.style.display = "block";
-      }); */
+ 
 
 }
 getWorkAdminApi().then((data)=>{
@@ -176,7 +163,7 @@ getWorkAdminApi().then((data)=>{
  modalGrid.addEventListener('click', function (event){
     event.preventDefault();
     event.stopPropagation();
-    const token=sessionStorage.getItem("token");
+   // const token=sessionStorage.getItem("token");
     if(event.target.classList.contains('fa-trash-can')){
         const adminCard=event.target.closest('adminCard');
         const adminCardId=adminCard.dataset.id;
@@ -207,9 +194,7 @@ getWorkAdminApi().then((data)=>{
     }
 }) 
 
-const stopPropagation= function(e){
-    e.stopPropagation()
-}
+
 
 
 /*******************************************
@@ -278,6 +263,8 @@ uploadInput.onchange = function (e) {
   const categoryInput = document.getElementById("catégorie");
   const imageInput = document.getElementById("file-upload");
   const btnValidate = document.getElementById("btnvalidate");
+
+  // si les inputs sont remplis correctement, le bouton validate devient vert
   function checkInputs() {
     if (titleInput.value && categoryInput.value && imageInput.value) {
       btnValidate.style.backgroundColor = "#1d6154";
@@ -305,6 +292,9 @@ uploadInput.onchange = function (e) {
     e.stopPropagation();
   })
   faImg.addEventListener("click", (e)=>{
+    e.stopPropagation();
+  })
+  preventCloseModal.addEventListener("click", (e)=>{
     e.stopPropagation();
   })
 
@@ -335,7 +325,7 @@ uploadInput.onchange = function (e) {
       .then((data) => {
             dynamicGallery(data);
             adminGallery(data);
-        preventCloseModal.style.display = "none";
+        preventCloseModal.style.display = "flex";
         modalForm.reset();
         imageInput.value = "";
         imagePreview.style.display = "none";
