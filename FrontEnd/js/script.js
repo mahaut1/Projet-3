@@ -83,7 +83,7 @@
   const logOut=() =>{
     sessionStorage.clear("token");
     console.log("disconnected");
-    windows.location.reload();
+    window.location.reload();
   }
 
   const updateLoginButton =() =>{
@@ -125,12 +125,12 @@
  * ********************************************/
 const gallery = document.querySelector(".gallery");
 const modalWrapper = document.querySelector(".modal-wrapper");
-const modalGrid = document.querySelector("#modalGrid");
-const preventCloseModal = document.getElementById("preventCloseModal");
+const modalGrid = document.querySelector("#modal-grid");
+const preventCloseModal = document.getElementById("prevent-close-modal");
 const BtnModificationWorks = document.querySelector("#js-button-edit-gallery");
-const btnAddPic = document.querySelector(".btnAddPicture");
-const modalFooter = document.querySelector("#modalFooter");
-const titleModal = document.querySelector("#titleModal");
+const btnAddPic = document.querySelector(".btn-add-picture");
+const modalFooter = document.querySelector("#modal-footer");
+const titleModal = document.querySelector("#title-modal");
 const arrow = document.querySelector("#arrow");
 const modalForm = document.querySelector("dialog form");
 const hr1 = document.querySelector("#hr1");
@@ -176,7 +176,7 @@ const getWorkAdminApi = async() => {
 }
 // création des cards de la modale
 const adminGallery = (cards) => {
-    const modalGrid= document.querySelector("#modalGrid");
+    const modalGrid= document.querySelector("#modal-grid");
     modalGrid.innerHTML="";
     cards.forEach((card)=>{
         const adminCard=document.createElement("adminCard")
@@ -246,7 +246,7 @@ getWorkAdminApi().then((data)=>{
 /*******************************************
  * * MODALE 2  
  ******************************************/
-document.getElementById("btnAddWork").addEventListener("click", function (e) {
+document.getElementById("btn-add-work").addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
     modalWrapper.showModal();
@@ -288,9 +288,9 @@ document.getElementById("btnAddWork").addEventListener("click", function (e) {
 
 let uploadInput = document.getElementById("file-upload");
 const faImg = document.querySelector(".fa-image");
-const addPic = document.querySelector("#addPic");
-const formatImag = document.querySelector("#formatImage");
-const imagePreview = document.querySelector("#imagePreview");
+const addPic = document.querySelector("#add-pic");
+const formatImag = document.querySelector("#format-image");
+const imagePreview = document.querySelector("#image-preview");
 uploadInput.onchange = function (e) {
     
   let image = new FileReader();
@@ -304,11 +304,11 @@ uploadInput.onchange = function (e) {
   };
   image.readAsDataURL(this.files[0]);
 };
-  const addWorkForm = document.querySelector("#addWorkForm");
+  const addWorkForm = document.querySelector("#add-work-form");
   const titleInput = document.getElementById("titre");
   const categoryInput = document.getElementById("catégorie");
   const imageInput = document.getElementById("file-upload");
-  const btnValidate = document.getElementById("btnvalidate");
+  const btnValidate = document.getElementById("btn-validate");
 
   // si les inputs sont remplis correctement, le bouton validate devient vert
   function checkInputs() {

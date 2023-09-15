@@ -68,16 +68,3 @@
 
 
 
- const token=localStorage.getItem("token");
- const authButton = document.getElementById("ButtonLogin");
-
- if(token !==null) {
-    filter.style.display = "none";
-    editBar.style.display = "flex";
-    alignItems.style.alignItems = "inherit";
-    buttonEditDescription.style.display = "inline-flex";
-    buttonEditGallery.style.display = "inline-flex";
-    buttonEditProfil.style.display = "inline-flex";
-    authButton.innerText = "logout";
- }
- 

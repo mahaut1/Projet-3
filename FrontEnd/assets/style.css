@@ -340,7 +340,7 @@ input[type="submit"]{
 	display: flex;
   }
   
-  #preventCloseModal {
+  #prevent-close-modal {
 	display: none;
 	width: 100%;
 	height: 100%;
@@ -351,13 +351,13 @@ input[type="submit"]{
 	background: rgba(0, 0, 0, 0.74);
   }
 
- #modalHeader {
+ #modal-header {
 	display: flex;
 	flex-direction: row;
 	margin:0px;
   } 
   
-  #titleModal {
+  #title-modal {
 	font-size: xx-large;
 	text-align: center;
 	padding-top: 20px;
@@ -387,14 +387,14 @@ input[type="submit"]{
 	margin-block: 50px;
   }
   
-  #modalFooter {
+  #modal-footer {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 30px;
   }
   
-  .btnAddPicture {
+  .btn-add-picture {
 	display: flex;
 	font-family: "Syne";
 	font-weight: 700;
@@ -408,7 +408,7 @@ input[type="submit"]{
 	border-radius: 60px;
 	border: 2px solid #1d6154;
   }
-  .btnAddPic:hover {
+  .btn-add-pic:hover {
 	color: #1d6154;
 	background-color: white;
   }
@@ -417,7 +417,7 @@ input[type="submit"]{
 	position: relative;
   }
   
- #modalGrid svg{
+ #modal-grid svg{
 	position: inherit;
 	top: 5px;
 	right: 5px;
@@ -452,7 +452,7 @@ input[type="submit"]{
 	font-size:x-large ;
   }
   
-  #bluePicDiv {
+  #blue-pic-div {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -494,7 +494,7 @@ input[type="submit"]{
 	margin: 0;
   }
   
-  #imagePreview {
+  #image-preview {
 	width: fit-content;
 	block-size: fit-content;
 	max-width: 150px;
@@ -531,7 +531,7 @@ input[type="submit"]{
 	flex-direction: column;
 	align-items: center;
   }
-  #btnvalidate {
+  #btn-validate {
 	justify-content: center;
 	font-family: "Syne";
 	font-weight: 700;
