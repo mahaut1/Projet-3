@@ -267,7 +267,7 @@ input[type="submit"]{
 
 /************* MODE ADMIN ****************************/
 .edit-mode {
-	display: flex;
+	display: none;
 	justify-content: center;
 	align-items: center;
 	gap: 1rem;
@@ -315,7 +315,7 @@ input[type="submit"]{
 
   
 .button-admin {
-	display: flex;
+	display: none;
 	background: none;
 	justify-content: center;
 	align-items: center;

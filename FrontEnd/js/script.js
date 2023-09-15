@@ -73,6 +73,52 @@
     getWorkApi().then((data)=>{
         dynamicGallery(data);
     });
+/***********************************************
+ * INTERFACE ADMIN
+ ***********************************************/
+  const token=sessionStorage.getItem("token")
+
+  const isLogged=() =>(token? true:false);
+
+  const logOut=() =>{
+    sessionStorage.clear("token");
+    console.log("disconnected");
+    windows.location.reload();
+  }
+
+  const updateLoginButton =() =>{
+    const loginBtn=document.querySelector("#ButtonLogin");
+    if(isLogged()){
+      loginBtn.href='#';
+      loginBtn.innerText="logout";
+      loginBtn.addEventListener("click", () =>{
+        logOut();
+        loginBtn.innerText="login";
+      });
+    }
+  };
+
+  const updateInterface= () =>{
+    const filter=document.querySelector(".js-filter-box");
+    const editBar=document.querySelector("#js-edit-mode");
+    const alignItems=document.querySelector("#introduction");
+    const editGalleryButton=document.querySelector("#js-button-edit-gallery");
+    const editProfilButton=document.querySelector("#js-button-edit-profil");
+    if(isLogged()) {
+      filter.style.display="none";
+      editBar.style.display="flex";
+      editGalleryButton.style.display="inline-flex";
+      alignItems.style.alignItems="inherit";
+      editProfilButton.style.display="inline-flex";
+    }
+  };
+
+  window.addEventListener("load", () =>{
+    updateLoginButton();
+    updateInterface();
+  })
+
+
 
 /***********************************************
  * MODALE 1
