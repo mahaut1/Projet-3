@@ -103,13 +103,11 @@
     const editBar=document.querySelector("#js-edit-mode");
     const alignItems=document.querySelector("#introduction");
     const editGalleryButton=document.querySelector("#js-button-edit-gallery");
-    const editProfilButton=document.querySelector("#js-button-edit-profil");
     if(isLogged()) {
       filter.style.display="none";
       editBar.style.display="flex";
       editGalleryButton.style.display="inline-flex";
       alignItems.style.alignItems="inherit";
-      editProfilButton.style.display="inline-flex";
     }
   };
 
@@ -153,7 +151,6 @@ BtnModificationWorks.addEventListener("click", () => {
     // on évite l'apparition du formulaire d'ajout 
     arrow.style.display = "none";
     modalForm.style.display = "none";
-    modalWrapper.classList.add("mystyle");
     modalWrapper.display = "none";
     // apparition de la barre horizontale, des boutons ajouter une photo et supprimer la galerie, ainsi que du titre
     btnAddPic.style.display = "flex";
@@ -225,7 +222,7 @@ getWorkAdminApi().then((data)=>{
                 response.preventDefault();
                 response.stopPropagation();
                 const removedCard = modalGrid.querySelector('adminCard[data-id="' + adminCardId + '"]');
-                modalGrid.removeChild(removedCard);
+                modal-grid.removeChild(removedCard);
                 gallery.removeChild(removedCard);
                 getWorkAdminApi().then((data)=>{
                     adminGallery(data);

@@ -274,6 +274,10 @@ input[type="submit"]{
 	background-color: black;
 	padding-block: 1em;
   }
+
+  #js-button-edit-gallery{
+	margin-left: 700px;
+  }
   
   .edit-mode p {
 	align-items: center;
@@ -286,19 +290,7 @@ input[type="submit"]{
 	color: white;
   }
 
-  .button-publish {
-	background-color: white;
-	color: black;
-	border: 2px solid white;
-	padding: 0.4em 1em;
-	border-radius: 1em;
-  
-	font-family: "Work Sans";
-  
-	font-weight: 500;
-	font-size: 0.875rem;
-	cursor: pointer;
-  }
+
 
   .wrapper-profil {
 	display: flex;
