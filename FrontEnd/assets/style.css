@@ -237,7 +237,10 @@ input[type="submit"]{
 }
 
 
-
+#ButtonLogin{
+	text-decoration: none;
+	color:#000000;
+}
 .login label{
 	margin-bottom: 10px;
 }

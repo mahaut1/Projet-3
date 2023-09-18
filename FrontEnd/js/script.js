@@ -83,7 +83,7 @@
   const logOut=() =>{
     sessionStorage.clear("token");
     console.log("disconnected");
-    window.location.reload();
+   // window.location.reload();
   }
 
   const updateLoginButton =() =>{
@@ -111,10 +111,10 @@
     }
   };
 
-  window.addEventListener("load", () =>{
+   window.addEventListener("load", () =>{
     updateLoginButton();
     updateInterface();
-  })
+  }) 
 
 
 
@@ -191,6 +191,27 @@ const adminGallery = (cards) => {
         adminCard.appendChild(imageElement);
         adminCard.appendChild(captionElement);
         modalGrid.appendChild(adminCard);
+     trash.addEventListener("click",(e)=>{
+      e.preventDefault();
+      fetch(`http://localhost:5678/api/works/${card.id}` , {
+        method: "DELETE",
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      }).then((response) => {
+        if (response.ok) {
+          console.log("Je rentre dans le .then")
+          const gallery = document.querySelector(".gallery");
+          //const adminCardId=adminCard.dataset.id;
+          const removedCard = modalGrid.querySelector('adminCard[data-id="' + card.id + '"]');
+          modalGrid.removeChild(removedCard);
+          gallery.removeChild(removedCard);
+          console.log("J'essaye de supprimer de la galerie")
+          getWorkAdminApi().then((data)=>{
+            adminGallery(data);
+        })
+        console.log("test");
+        }
+      });
+     })
     })
  
 
@@ -203,39 +224,42 @@ getWorkAdminApi().then((data)=>{
 /******************************************** 
  * *SUPPRESSION TRAVAIL 
  * ******************************************/
- modalGrid.addEventListener('click', function (event){
+/*   modalGrid.addEventListener('click', function (event){
+    console.log("J'ai cliqué sur le bouton")
     event.preventDefault();
-    event.stopPropagation();
-   // const token=sessionStorage.getItem("token");
-    if(event.target.classList.contains('fa-trash-can')){
-        const adminCard=event.target.closest('adminCard');
-        const adminCardId=adminCard.dataset.id;
-        fetch(`http://localhost:5678/api/works/${adminCardId}`, {
-            method:'DELETE',
-            headers: { 
-                Authorization: "Bearer " + sessionStorage.getItem("token") 
-            },
-
-        })
-        .then(function(response) {
-            if(response.ok){
-                response.preventDefault();
-                response.stopPropagation();
-                const removedCard = modalGrid.querySelector('adminCard[data-id="' + adminCardId + '"]');
-                modal-grid.removeChild(removedCard);
-                gallery.removeChild(removedCard);
-                getWorkAdminApi().then((data)=>{
-                    adminGallery(data);
-                })
-            } else {
-                console.error(`Erreur lors de la suppression de l'élement`);
-            }
-        })
-        .catch(function(error){
-            console.error(`Erreur de la supression de l'élément`, error);
-        })
-    }
-}) 
+      event.stopPropagation();
+    // const token=sessionStorage.getItem("token");
+      if(event.target.classList.contains('fa-trash-can')){
+        console.log("J'ai récupéré la carte a supprimer")
+          const adminCard=event.target.closest('adminCard');
+          const adminCardId=adminCard.dataset.id;
+            fetch(`http://localhost:5678/api/works/${adminCardId}`, {
+                  method:'DELETE',
+                  headers: { 
+                      Authorization: "Bearer " + sessionStorage.getItem("token") 
+                  },
+            })  */
+        
+        /*   .then(function(response) {
+              if(response.ok){
+                console.log("L'élément a été supprimé")
+                  response.preventDefault();
+                  response.stopPropagation();
+                  const removedCard = modalGrid.querySelector('adminCard[data-id="' + adminCardId + '"]');
+                  modal-grid.removeChild(removedCard);
+                  gallery.removeChild(removedCard);
+                  getWorkAdminApi().then((data)=>{
+                      adminGallery(data);
+                  })
+              } else {
+                  console.error(`Erreur lors de la suppression de l'élement`);
+                }
+          })
+          .catch(function(error){
+              console.error(`Erreur de la supression de l'élément`, error);
+          }) */
+     // }
+ // }) 
 
 
 
