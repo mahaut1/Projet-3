@@ -13,6 +13,7 @@
     }
 
     getCatApi().then((categories) => {
+      console.log(" J'affiche les catégories")
         const buttonBar= document.querySelector(`#buttonBar`);
         categories.forEach((categorie)=>{
             const button = document.createElement("button");
@@ -21,6 +22,7 @@
             buttonBar.appendChild(button);
 
             button.addEventListener("click", async () =>{
+              console.log("J'affiche les catégories filtrés")
                 const getData= await getWorkApi();
                 const filteredData = getData.filter((data)=> data.categoryId === categorie.id);   
                 dynamicGallery(filteredData);          
@@ -36,6 +38,7 @@
     btnAll.classList.add("FilterButton");
 
     btnAll.addEventListener("click",async()=>{
+      console.log("Je rajoute la catégorie tous")
         getWorkApi().then((data)=>{
             dynamicGallery(data);
         })
@@ -57,6 +60,7 @@
     };
     // fonction pour créer les cards des works
     const dynamicGallery = (cards) => {
+      console.log("J'affiche les cards dans la galerie")
         const gallery = document.querySelector(".gallery");
         gallery.innerHTML="";
         cards.forEach((card)=> {
@@ -79,19 +83,21 @@
   const token=sessionStorage.getItem("token")
 
   const isLogged=() =>(token? true:false);
-
+    console.log("Je verifie si mon admin est connecté")
   const logOut=() =>{
     sessionStorage.clear("token");
     console.log("disconnected");
-   // window.location.reload();
+   window.location.reload();
   }
 
   const updateLoginButton =() =>{
+    console.log("Je met a jour le bouton login")
     const loginBtn=document.querySelector("#ButtonLogin");
     if(isLogged()){
       loginBtn.href='#';
       loginBtn.innerText="logout";
       loginBtn.addEventListener("click", () =>{
+        console.log("Je me deconnecte")
         logOut();
         loginBtn.innerText="login";
       });
@@ -99,11 +105,13 @@
   };
 
   const updateInterface= () =>{
+    console.log("J'affiche les boutons d'administration...")
     const filter=document.querySelector(".js-filter-box");
     const editBar=document.querySelector("#js-edit-mode");
     const alignItems=document.querySelector("#introduction");
     const editGalleryButton=document.querySelector("#js-button-edit-gallery");
     if(isLogged()) {
+      console.log("... quand je suis connecté avec le compte admin")
       filter.style.display="none";
       editBar.style.display="flex";
       editGalleryButton.style.display="inline-flex";
@@ -121,6 +129,24 @@
 /***********************************************
  * MODALE 1
  * ********************************************/
+// création d'une constante pour ouvrir la modale qui sera une fonction qui prend en paramètre l'évenement
+const openModal= function (e) {
+  e.preventDefault()
+  //pour chaque cible je selectionne l'attribut href
+  const target= document.querySelector(e.target.getAttribute('href'))
+  // j'enlève l'attribut aria-hiden qui était à true pour afficher la modale
+  target.removeAttribute(`aria-hidden`)
+  target.setAttribute(`aria-modal`, `true`)
+}
+
+// Je vais sur les éléments qui ont la class js modale et sur chaque élément je place un écouteur d'évenement sur le clique qui lance la fonction openModal
+document.querySelectorAll(`.js-modal`).forEach(button=>{
+  console.log("J'ouvre la modale autrement")
+  button.addEventListener('click',openModal)
+  
+})
+
+
 const gallery = document.querySelector(".gallery");
 const modalWrapper = document.querySelector(".modal-wrapper");
 const modalGrid = document.querySelector("#modal-grid");
@@ -140,14 +166,19 @@ const stopPropagation= function(e){
 
 //Ouverture de la modale sur le clic "modifier"
 BtnModificationWorks.addEventListener("click", () => {
+  console.log("J'ouvre la modale")
     modalWrapper.showModal();
     //apparition des works
     preventCloseModal.style.display = "block";
-    modalGrid.style.display = "grid";
+    modalGrid.style.display = "flex";
     modalGrid.style.alignItems = "center";
-    modalGrid.style.gridGap = "10px 10px";
-    modalGrid.style.gridTemplateColumns = "auto auto auto auto auto";
-    modalGrid.style.gridTemplateRow = "300px 300px 300px ";
+   // modalGrid.style.gridGap = "10px 10px";
+    modalGrid.style.gridTemplateColumns = "none";
+    modalGrid.style.gridTemplateRow = "none ";
+    const gridItems = modalGrid.querySelectorAll('.flex-item');
+    gridItems.forEach(item => {
+      item.classList.add('flex-item');
+    });
     // on évite l'apparition du formulaire d'ajout 
     arrow.style.display = "none";
     modalForm.style.display = "none";
@@ -156,7 +187,7 @@ BtnModificationWorks.addEventListener("click", () => {
     btnAddPic.style.display = "flex";
     modalFooter.style.display = "flex";
     titleModal.textContent = "Galerie photo";
-    modalGrid.style.display = "grid";
+    modalGrid.style.display = "flex";
     hr1.style.display = "flex";
 
     titleModal.textContent = "Galerie photo";
@@ -173,20 +204,22 @@ const getWorkAdminApi = async() => {
 }
 // création des cards de la modale
 const adminGallery = (cards) => {
+  console.log("J'affiche les cards dans la modale")
     const modalGrid= document.querySelector("#modal-grid");
     modalGrid.innerHTML="";
     cards.forEach((card)=>{
+      console.log("Je crée les cards de la modale")
         const adminCard=document.createElement("adminCard")
         const imageElement = document.createElement("img");
         const captionElement = document.createElement("figcaption");
         captionElement.textContent = "éditer";
         const trash = document.createElement("i");
-        const cross = document.createElement("i");
-        trash.classList.add("fa-solid", "fa-trash-can");
-        cross.classList.add("fa-solid", "fa-arrows-up-down-left-right");
+        adminCard.classList.add("flex-item")
+        imageElement.classList.add("flex-item")
+        captionElement.classList.add("caption-element")
+        trash.classList.add("fa-solid", "fa-trash-can", "flex-item");
         imageElement.src = card.imageUrl;
         adminCard.setAttribute("data-id", card.id);
-        adminCard.appendChild(cross);
         adminCard.appendChild(trash);
         adminCard.appendChild(imageElement);
         adminCard.appendChild(captionElement);
@@ -198,16 +231,18 @@ const adminGallery = (cards) => {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       }).then((response) => {
         if (response.ok) {
+          preventDefault();
+          stopPropagation();
           console.log("Je rentre dans le .then")
           const gallery = document.querySelector(".gallery");
           //const adminCardId=adminCard.dataset.id;
-          const removedCard = modalGrid.querySelector('adminCard[data-id="' + card.id + '"]');
+          const removedCard = modal-grid.querySelector('adminCard[data-id="' + card.id + '"]');
           modalGrid.removeChild(removedCard);
           gallery.removeChild(removedCard);
           console.log("J'essaye de supprimer de la galerie")
-          getWorkAdminApi().then((data)=>{
+      /*     getWorkAdminApi().then((data)=>{
             adminGallery(data);
-        })
+        }) */
         console.log("test");
         }
       });
@@ -298,7 +333,7 @@ document.getElementById("btn-add-work").addEventListener("click", function (e) {
       btnAddPic.style.display = "flex";
       modalFooter.style.display = "flex";
       titleModal.textContent = "Galerie photo";
-      modalGrid.style.display = "grid";
+      modalGrid.style.display = "flex";
       hr1.style.display = "flex";
   
       titleModal.textContent = "Galerie photo";

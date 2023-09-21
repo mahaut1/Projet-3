@@ -48,56 +48,61 @@
 	<section id="portfolio">
 		<div class="wrapper-title">
 			<h2 class="projectTitle">Mes Projets</h2>
-			<button class="button-admin" id="js-button-edit-gallery">
+			<button class="button-admin js-modal" id="js-button-edit-gallery" href="#modal1">
 				<span><i class="fa-regular fa-pen-to-square"></i></span>
 				<p>modifier</p>
 		  </div>
-		  
-		  <dialog class="modal-wrapper" id="modal-wrapper">
-			<div id="prevent-close-modal">
-			  <header id="modal-header">
-				<i class="fa-solid fa-arrow-left" id="arrow"></i>
-				<i class="fa-solid fa-xmark"></i>
-			  </header>
-			  <h3 id="title-modal">Galerie photo</h3>
-			  <div id="modal-grid"></div>
-			  <hr id="hr1" />
-			  <footer id="modal-footer">
-				<button class="btn-add-picture" id="btn-add-work">
-				  Ajouter une photo
-				</button>
-				<p id="deleteGallery">Supprimer la galerie</p>
-			  </footer>
+		  <aside id="modal1" class="modal" aria-hidden="true" role="dialog">
+			<dialog class="modal-wrapper" id="modal-wrapper">
+				<div id="prevent-close-modal">
+					<header id="modal-header">
+					  <i class="fa-solid fa-arrow-left" id="arrow"></i>
+					  <i class="fa-solid fa-xmark"></i>
+					</header>
+					<h3 id="title-modal">Galerie photo</h3>
+					<div id="modal-grid" class="flex-container"></div>
+					<hr id="hr1" />
+					<footer id="modal-footer">
+					  <button class="btn-add-picture" id="btn-add-work">
+						Ajouter une photo
+					  </button>
+					  <p id="deleteGallery">Supprimer la galerie</p>
+					</footer>
+	  
+					<form id="add-work-form" method="dialog">
+					  <div id="image-wrapper">
+						<label for="file-upload" class="custom-file-upload">
+						  <i class="fa-regular fa-image"></i>
+						  <span id="add-pic">+ Ajouter photo</span>
+						</label>
+						<input
+						  id="file-upload"
+						  type="file"
+						  accept="image/*/png"
+						  name="image"
+						  required
+						/>
+						<img src="assets/icons/empty.png" alt="" id="image-preview" />
+						<p id="format-image">jpg, png : 4mo max</p>
+					  </div>
+					  <label for="titre" id="Titre"> Titre :</label>
+					  <input type="text" name="title" required id="titre" />
+					  <label for="catégorie" id="cat"> Catégorie : </label>
+					  <select name="category" required id="catégorie">
+						<option value="">Choisisez une catégorie</option>
+						<option value="1">Objets</option>
+						<option value="2">Appartements</option>
+						<option value="3">Hôtels /& restaurants</option>
+					  </select>
+					  <hr id="hr2" />
+					  <button type="submit" id="btn-validate">Valider</button>
+					</form>
+				  </div>
+				</dialog>
 
-			  <form id="add-work-form" method="dialog">
-				<div id="blue-pic-div">
-				  <label for="file-upload" class="custom-file-upload">
-					<i class="fa-regular fa-image"></i>
-					<span id="add-pic">+ Ajouter photo</span>
-				  </label>
-				  <input
-					id="file-upload"
-					type="file"
-					accept="image/*/png"
-					name="image"
-					required
-				  />
-				  <img src="assets/icons/empty.png" alt="" id="image-preview" />
-				  <p id="format-image">jpg, png : 4mo max</p>
-				</div>
-				<label for="titre" id="Titre"> Titre :</label>
-				<input type="text" name="title" required id="titre" />
-				<label for="catégorie" id="cat"> Catégorie : </label>
-				<select name="category" required id="catégorie">
-				  <option value="">Choisisez une catégorie</option>
-				  <option value="1">Objets</option>
-				  <option value="2">Appartements</option>
-				  <option value="3">Hôtels /& restaurants</option>
-				</select>
-				<hr id="hr2" />
-				<button type="submit" id="btn-validate">Valider</button>
-			  </form>
-			</div>
+		  </aside>
+		  <dialog class="modal-wrapper" id="modal-wrapper">
+			
 		  </dialog>
 
 		<div id="buttonBar" class="js-filter-box">	
