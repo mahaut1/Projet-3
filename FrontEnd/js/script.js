@@ -32,12 +32,12 @@
     
     });
 
-    const btnAll = document.createElement('button');
-    btnAll.innerText = 'Tous';
-    buttonBar.appendChild(btnAll);
-    btnAll.classList.add("FilterButton");
+    const buttonAll = document.createElement('button');
+    buttonAll.innerText = 'Tous';
+    buttonBar.appendChild(buttonAll);
+    buttonAll.classList.add("FilterButton");
 
-    btnAll.addEventListener("click",async()=>{
+    buttonAll.addEventListener("click",async()=>{
       console.log("Je rajoute la catégorie tous")
         getWorkApi().then((data)=>{
             dynamicGallery(data);
@@ -149,14 +149,14 @@ document.querySelectorAll(`.js-modal`).forEach(button=>{
 
 const gallery = document.querySelector(".gallery");
 const modalWrapper = document.querySelector(".modal-wrapper");
-const modalGrid = document.querySelector("#modal-grid");
+const flexModal = document.querySelector("#modal-grid");
 const preventCloseModal = document.getElementById("prevent-close-modal");
-const BtnModificationWorks = document.querySelector("#js-button-edit-gallery");
-const btnAddPic = document.querySelector(".btn-add-picture");
+const modifyWorksButton = document.querySelector("#js-button-edit-gallery");
+const addPictureButton = document.querySelector(".btn-add-picture");
 const modalFooter = document.querySelector("#modal-footer");
-const titleModal = document.querySelector("#title-modal");
+const modalTitle = document.querySelector("#title-modal");
 const arrow = document.querySelector("#arrow");
-const modalForm = document.querySelector("dialog form");
+const formularModal = document.querySelector("dialog form");
 const hr1 = document.querySelector("#hr1");
 const hr2 = document.querySelector("#hr2");
 
@@ -165,32 +165,26 @@ const stopPropagation= function(e){
 }
 
 //Ouverture de la modale sur le clic "modifier"
-BtnModificationWorks.addEventListener("click", () => {
+modifyWorksButton.addEventListener("click", () => {
   console.log("J'ouvre la modale")
     modalWrapper.showModal();
     //apparition des works
     preventCloseModal.style.display = "block";
-    modalGrid.style.display = "flex";
-    modalGrid.style.alignItems = "center";
-   // modalGrid.style.gridGap = "10px 10px";
-    modalGrid.style.gridTemplateColumns = "none";
-    modalGrid.style.gridTemplateRow = "none ";
-    const gridItems = modalGrid.querySelectorAll('.flex-item');
-    gridItems.forEach(item => {
-      item.classList.add('flex-item');
-    });
+    flexModal.style.display = "flex";
+    flexModal.style.alignItems = "center";
+
     // on évite l'apparition du formulaire d'ajout 
     arrow.style.display = "none";
-    modalForm.style.display = "none";
+    formularModal.style.display = "none";
     modalWrapper.display = "none";
     // apparition de la barre horizontale, des boutons ajouter une photo et supprimer la galerie, ainsi que du titre
-    btnAddPic.style.display = "flex";
+    addPictureButton.style.display = "flex";
     modalFooter.style.display = "flex";
-    titleModal.textContent = "Galerie photo";
-    modalGrid.style.display = "flex";
+    modalTitle.textContent = "Galerie photo";
+    flexModal.style.display = "flex";
     hr1.style.display = "flex";
 
-    titleModal.textContent = "Galerie photo";
+    modalTitle.textContent = "Galerie photo";
 });
 
 const getWorkAdminApi = async() => {
@@ -205,8 +199,8 @@ const getWorkAdminApi = async() => {
 // création des cards de la modale
 const adminGallery = (cards) => {
   console.log("J'affiche les cards dans la modale")
-    const modalGrid= document.querySelector("#modal-grid");
-    modalGrid.innerHTML="";
+    const flexModal= document.querySelector("#modal-grid");
+    flexModal.innerHTML="";
     cards.forEach((card)=>{
       console.log("Je crée les cards de la modale")
         const adminCard=document.createElement("adminCard")
@@ -223,9 +217,10 @@ const adminGallery = (cards) => {
         adminCard.appendChild(trash);
         adminCard.appendChild(imageElement);
         adminCard.appendChild(captionElement);
-        modalGrid.appendChild(adminCard);
-     trash.addEventListener("click",(e)=>{
+        flexModal.appendChild(adminCard);
+ /*     trash.addEventListener("click",(e)=>{
       e.preventDefault();
+      e.stopPropagation();
       fetch(`http://localhost:5678/api/works/${card.id}` , {
         method: "DELETE",
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
@@ -237,16 +232,13 @@ const adminGallery = (cards) => {
           const gallery = document.querySelector(".gallery");
           //const adminCardId=adminCard.dataset.id;
           const removedCard = modal-grid.querySelector('adminCard[data-id="' + card.id + '"]');
-          modalGrid.removeChild(removedCard);
+          flexModal.removeChild(removedCard);
           gallery.removeChild(removedCard);
           console.log("J'essaye de supprimer de la galerie")
-      /*     getWorkAdminApi().then((data)=>{
-            adminGallery(data);
-        }) */
         console.log("test");
         }
       });
-     })
+     }) */
     })
  
 
@@ -259,7 +251,7 @@ getWorkAdminApi().then((data)=>{
 /******************************************** 
  * *SUPPRESSION TRAVAIL 
  * ******************************************/
-/*   modalGrid.addEventListener('click', function (event){
+ flexModal.addEventListener('click', function (event){
     console.log("J'ai cliqué sur le bouton")
     event.preventDefault();
       event.stopPropagation();
@@ -273,14 +265,12 @@ getWorkAdminApi().then((data)=>{
                   headers: { 
                       Authorization: "Bearer " + sessionStorage.getItem("token") 
                   },
-            })  */
+            })  
         
-        /*   .then(function(response) {
+          .then(function(response) {
               if(response.ok){
                 console.log("L'élément a été supprimé")
-                  response.preventDefault();
-                  response.stopPropagation();
-                  const removedCard = modalGrid.querySelector('adminCard[data-id="' + adminCardId + '"]');
+                  const removedCard = flexModal.querySelector('adminCard[data-id="' + adminCardId + '"]');
                   modal-grid.removeChild(removedCard);
                   gallery.removeChild(removedCard);
                   getWorkAdminApi().then((data)=>{
@@ -292,10 +282,9 @@ getWorkAdminApi().then((data)=>{
           })
           .catch(function(error){
               console.error(`Erreur de la supression de l'élément`, error);
-          }) */
-     // }
- // }) 
-
+          }) 
+      }
+ }) 
 
 
 
@@ -307,16 +296,16 @@ document.getElementById("btn-add-work").addEventListener("click", function (e) {
     e.stopPropagation();
     modalWrapper.showModal();
     console.log("J'ai cliqué");
-    btnAddPic.style.display = "none";
+    addPictureButton.style.display = "none";
     modalFooter.style.display = "none";
-    titleModal.textContent = "Ajout photo";
-    modalGrid.style.display = "none";
+    modalTitle.textContent = "Ajout photo";
+    flexModal.style.display = "none";
     hr1.style.display = "none";
   
       // ajout de fleche gauche
     arrow.style.display = "flex";
-    modalForm.style.display = "flex";
-    modalForm.style.flexDirection = "column";
+    formularModal.style.display = "flex";
+    formularModal.style.flexDirection = "column";
     
   });
 
@@ -326,17 +315,14 @@ document.getElementById("btn-add-work").addEventListener("click", function (e) {
     e.stopPropagation();
     if (modalWrapper.open) {
       arrow.style.display = "none";
-      modalForm.style.display = "none";
-      modalWrapper.classList.add("mystyle");
+      formularModal.style.display = "none";
       modalWrapper.display = "none";
   
-      btnAddPic.style.display = "flex";
+      addPictureButton.style.display = "flex";
       modalFooter.style.display = "flex";
-      titleModal.textContent = "Galerie photo";
-      modalGrid.style.display = "flex";
+      modalTitle.textContent = "Galerie photo";
+      flexModal.style.display = "flex";
       hr1.style.display = "flex";
-  
-      titleModal.textContent = "Galerie photo";
     }
   });
   
@@ -428,7 +414,7 @@ uploadInput.onchange = function (e) {
             dynamicGallery(data);
             adminGallery(data);
         preventCloseModal.style.display = "flex";
-        modalForm.reset();
+        formularModal.reset();
         imageInput.value = "";
         imagePreview.style.display = "none";
         faImg.style.display = "flex";
@@ -446,12 +432,7 @@ x.addEventListener("click", () => {
   modalWrapper.close();
   addWorkForm.reset();
   preventCloseModal.style.display = "none";
-  modalForm.reset();
-  imageInput.value = "";
-  imagePreview.style.display = "none";
-  faImg.style.display = "flex";
-  addPic.style.display = "flex";
-  formatImag.style.display = "flex"; 
+  formularModal.reset();
 });
 
 // fermer la modale en cliquant en dehors de la modale
@@ -459,12 +440,7 @@ modalWrapper.addEventListener("click", () => {
     modalWrapper.close();
     preventCloseModal.style.display = "none";
     addWorkForm.reset();
-    modalForm.reset();
-     imageInput.value = "";
-    imagePreview.style.display = "none";
-    faImg.style.display = "flex";
-    addPic.style.display = "flex";
-    formatImag.style.display = "flex"; 
+    formularModal.reset();
   });
 
   
