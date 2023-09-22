@@ -80,49 +80,71 @@
 /***********************************************
  * INTERFACE ADMIN
  ***********************************************/
-  const token=sessionStorage.getItem("token")
 
-  const isLogged=() =>(token? true:false);
-    console.log("Je verifie si mon admin est connecté")
-  const logOut=() =>{
-    sessionStorage.clear("token");
-    console.log("disconnected");
-   window.location.reload();
+  class AdminManager {
+    constructor() {
+      this.token = sessionStorage.getItem("token");
+      this.loginButton = document.querySelector("#ButtonLogin");
+      this.filter = document.querySelector(".js-filter-box");
+      this.editBar = document.querySelector("#js-edit-mode");
+      this.alignItems = document.querySelector("#introduction");
+      this.editGalleryButton = document.querySelector("#js-button-edit-gallery");
+      
+      this.init();
+    }
+  
+    init() {
+      console.log("Initialisation de l'AdminManager");
+      this.updateLoginButton();
+      this.updateInterface();
+      this.loginButton.addEventListener("click", () => this.toggleLogin());
+    }
+  
+    isLogged() {
+      return this.token ? true : false;
+    }
+  
+    toggleLogin() {
+      if (this.isLogged()) {
+        this.logout();
+      } else {
+        this.init();
+      }
+    }
+  
+    logout() {
+      sessionStorage.removeItem("token");
+      console.log("Déconnecté");
+      window.location.reload();
+    }
+  
+    updateLoginButton() {
+      console.log("Mise à jour du bouton de connexion");
+      if (this.isLogged()) {
+        this.loginButton.href = '#';
+        this.loginButton.innerText = "Logout";
+      } else {
+        this.loginButton.href = 'login.html'; 
+        this.loginButton.innerText = "Login";
+      }
+    }
+  
+    updateInterface() {
+      console.log("Mise à jour de l'interface d'administration");
+      if (this.isLogged()) {
+        console.log("Affichage des boutons d'administration lorsque l'administrateur est connecté");
+        this.filter.style.display = "none";
+        this.editBar.style.display = "flex";
+        this.editGalleryButton.style.display = "inline-flex";
+        this.alignItems.style.alignItems = "inherit";
+      }
+    }
   }
-
-  const updateLoginButton =() =>{
-    console.log("Je met a jour le bouton login")
-    const loginBtn=document.querySelector("#ButtonLogin");
-    if(isLogged()){
-      loginBtn.href='#';
-      loginBtn.innerText="logout";
-      loginBtn.addEventListener("click", () =>{
-        console.log("Je me deconnecte")
-        logOut();
-        loginBtn.innerText="login";
-      });
-    }
-  };
-
-  const updateInterface= () =>{
-    console.log("J'affiche les boutons d'administration...")
-    const filter=document.querySelector(".js-filter-box");
-    const editBar=document.querySelector("#js-edit-mode");
-    const alignItems=document.querySelector("#introduction");
-    const editGalleryButton=document.querySelector("#js-button-edit-gallery");
-    if(isLogged()) {
-      console.log("... quand je suis connecté avec le compte admin")
-      filter.style.display="none";
-      editBar.style.display="flex";
-      editGalleryButton.style.display="inline-flex";
-      alignItems.style.alignItems="inherit";
-    }
-  };
-
-   window.addEventListener("load", () =>{
-    updateLoginButton();
-    updateInterface();
-  }) 
+  
+  window.addEventListener("load", () => {
+    const adminManager = new AdminManager();
+  });
+  
 
 
 
@@ -158,7 +180,6 @@ const modalTitle = document.querySelector("#title-modal");
 const arrow = document.querySelector("#arrow");
 const formularModal = document.querySelector("dialog form");
 const hr1 = document.querySelector("#hr1");
-const hr2 = document.querySelector("#hr2");
 
 const stopPropagation= function(e){
   e.stopPropagation()
@@ -176,7 +197,6 @@ modifyWorksButton.addEventListener("click", () => {
     // on évite l'apparition du formulaire d'ajout 
     arrow.style.display = "none";
     formularModal.style.display = "none";
-    modalWrapper.display = "none";
     // apparition de la barre horizontale, des boutons ajouter une photo et supprimer la galerie, ainsi que du titre
     addPictureButton.style.display = "flex";
     modalFooter.style.display = "flex";
@@ -330,7 +350,7 @@ document.getElementById("btn-add-work").addEventListener("click", function (e) {
 
 let uploadInput = document.getElementById("file-upload");
 const faImg = document.querySelector(".fa-image");
-const addPic = document.querySelector("#add-pic");
+const addPicture = document.querySelector("#add-pic");
 const formatImag = document.querySelector("#format-image");
 const imagePreview = document.querySelector("#image-preview");
 uploadInput.onchange = function (e) {
@@ -340,7 +360,7 @@ uploadInput.onchange = function (e) {
   image.onload = function (e) {
     imagePreview.src = e.target.result;
     faImg.style.display = "none";
-    addPic.style.display = "none";
+    addPicture.style.display = "none";
     formatImag.style.display = "none";
     imagePreview.style.display = "flex";
   };
@@ -350,16 +370,16 @@ uploadInput.onchange = function (e) {
   const titleInput = document.getElementById("titre");
   const categoryInput = document.getElementById("catégorie");
   const imageInput = document.getElementById("file-upload");
-  const btnValidate = document.getElementById("btn-validate");
+  const validateButton = document.getElementById("btn-validate");
 
   // si les inputs sont remplis correctement, le bouton validate devient vert
   function checkInputs() {
     if (titleInput.value && categoryInput.value && imageInput.value) {
-      btnValidate.style.backgroundColor = "#1d6154";
-      btnValidate.style.border = "#1d6154";
-      btnValidate.style.color = "white";
+      validateButton.style.backgroundColor = "#1d6154";
+      validateButton.style.border = "#1d6154";
+      validateButton.style.color = "white";
     } else {
-      btnValidate.style.backgroundColor = "grey";
+      validateButton.style.backgroundColor = "grey";
     }
   }
   
@@ -373,10 +393,10 @@ uploadInput.onchange = function (e) {
   imageInput.addEventListener("click", (e)=>{
     e.stopPropagation();
   })
-  btnValidate.addEventListener("click", (e)=>{
+  validateButton.addEventListener("click", (e)=>{
     e.stopPropagation();
   })
-  addPic.addEventListener("click", (e)=>{
+  addPicture.addEventListener("click", (e)=>{
     e.stopPropagation();
   })
   faImg.addEventListener("click", (e)=>{
@@ -418,7 +438,7 @@ uploadInput.onchange = function (e) {
         imageInput.value = "";
         imagePreview.style.display = "none";
         faImg.style.display = "flex";
-        addPic.style.display = "flex";
+        addPicture.style.display = "flex";
         formatImag.style.display = "flex";
       })
       .catch((error) => alert(error.message));
