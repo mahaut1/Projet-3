@@ -80,7 +80,7 @@
 /***********************************************
  * INTERFACE ADMIN
  ***********************************************/
-
+// création d'une classe JavaScript pour encapsuler le comportement lié à la connexion et à la déconnexion de l'administrateur
   class AdminManager {
     constructor() {
       this.token = sessionStorage.getItem("token");
@@ -151,7 +151,7 @@
 /***********************************************
  * MODALE 1
  * ********************************************/
-// création d'une constante pour ouvrir la modale qui sera une fonction qui prend en paramètre l'évenement
+/* // création d'une constante pour ouvrir la modale qui sera une fonction qui prend en paramètre l'évenement
 const openModal= function (e) {
   e.preventDefault()
   //pour chaque cible je selectionne l'attribut href
@@ -166,7 +166,7 @@ document.querySelectorAll(`.js-modal`).forEach(button=>{
   console.log("J'ouvre la modale autrement")
   button.addEventListener('click',openModal)
   
-})
+})  */
 
 
 const gallery = document.querySelector(".gallery");
@@ -292,7 +292,7 @@ getWorkAdminApi().then((data)=>{
                 console.log("L'élément a été supprimé")
                   const removedCard = flexModal.querySelector('adminCard[data-id="' + adminCardId + '"]');
                   modal-grid.removeChild(removedCard);
-                  gallery.removeChild(removedCard);
+                  gallery.removeChild(flexModal.querySelector('adminCard[data-id="' + adminCardId + '"]'));
                   getWorkAdminApi().then((data)=>{
                       adminGallery(data);
                   })
@@ -345,10 +345,24 @@ document.getElementById("btn-add-work").addEventListener("click", function (e) {
       hr1.style.display = "flex";
     }
   });
+/*   let uploadInput = document.getElementById("file-upload");
+  const faImg = document.querySelector(".fa-image");
+  const addPicture = document.querySelector("#add-pic");
+  const formatImag = document.querySelector("#format-image");
+  const imagePreview = document.querySelector("#image-preview");
+  const titleInput= document.querySelector("titre");
+
+  titleInput.addEventListener("click", (e)=>{e.stopPropagation()})
+  categoryInput.addEventListener("click", (e)=>{e.stopPropagation()})
+  imageInput.addEventListener("click", (e)=>{e.stopPropagation()})
+  validateButton.addEventListener("click", (e)=>{e.stopPropagation()})
+  addPicture.addEventListener("click", (e)=>{e.stopPropagation()})
+  faImg.addEventListener("click", (e)=>{e.stopPropagation()})
+  preventCloseModal.addEventListener("click", (e)=>{e.stopPropagation()}) */
   
   //  * ajout image modal 2/2 <i class="fa-regular fa-image"></i>--------------------------------------------
 
-let uploadInput = document.getElementById("file-upload");
+  let uploadInput = document.getElementById("file-upload");
 const faImg = document.querySelector(".fa-image");
 const addPicture = document.querySelector("#add-pic");
 const formatImag = document.querySelector("#format-image");
@@ -443,6 +457,101 @@ uploadInput.onchange = function (e) {
       })
       .catch((error) => alert(error.message));
   });
+ /*  class WorkFormManager {
+    constructor() {
+      this.uploadInput = document.getElementById("file-upload");
+      this.faImg = document.querySelector(".fa-image");
+      this.addPicture = document.querySelector("#add-pic");
+      this.formatImag = document.querySelector("#format-image");
+      this.imagePreview = document.querySelector("#image-preview");
+      this.titleInput = document.getElementById("titre");
+      this.categoryInput = document.getElementById("catégorie");
+      this.validateButton = document.getElementById("btn-validate");
+      this.addWorkForm = document.querySelector("#add-work-form");
+  
+      this.init();
+    }
+    
+    init() {
+      this.setupFileUpload();
+      this.setupFormValidation();
+    }
+  
+    setupFileUpload() {
+      this.uploadInput.onchange = function (e)  {
+        const image = new FileReader();
+  
+        image.onload = function(e) {
+          console.log("Chemin de l'image :", e.target.result);
+          this.imagePreview.src = e.target.result;
+          this.faImg.style.display = "none";
+          this.addPicture.style.display = "none";
+          this.formatImag.style.display = "none";
+          this.imagePreview.style.display = "flex";
+        };
+  
+        image.readAsDataURL(this.uploadInput.files[0]);
+      };
+    }
+  
+    setupFormValidation() {
+      this.titleInput.addEventListener("input", () => this.checkInputs());
+      this.categoryInput.addEventListener("input", () => this.checkInputs());
+      this.uploadInput.addEventListener("input", () => this.checkInputs());
+  
+      this.addWorkForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+  
+        if (this.titleInput.value && this.categoryInput.value && this.uploadInput.value) {
+          this.submitForm();
+        }
+      });
+    }
+  
+    checkInputs() {
+      if (this.titleInput.value && this.categoryInput.value && this.uploadInput.value) {
+        this.validateButton.style.backgroundColor = "#1d6154";
+        this.validateButton.style.border = "#1d6154";
+        this.validateButton.style.color = "white";
+      } else {
+        this.validateButton.style.backgroundColor = "grey";
+      }
+    }
+  
+    submitForm() {
+      const formData = new FormData();
+      formData.append("image", this.uploadInput.files[0]);
+      formData.append("title", this.titleInput.value);
+      formData.append("category", this.categoryInput.value);
+  
+      fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          dynamicGallery(data);
+          adminGallery(data);
+          preventCloseModal.style.display = "flex";
+          formularModal.reset();
+          this.uploadInput.value = "";
+          this.imagePreview.style.display = "none";
+          this.faImg.style.display = "flex";
+          this.addPicture.style.display = "flex";
+          this.formatImag.style.display = "flex";
+        })
+        .catch((error) => alert(error.message));
+    }
+  }
+  
+  window.addEventListener("load", () => {
+    const workFormManager = new WorkFormManager();
+  }); */
+  
 
   /******* FERMETURE DE LA MODALE ****************/
     // fermer la modale avec la croix
